@@ -26,4 +26,4 @@ python read_srtm.py 49.68437 -122.14162
 
 elevation is 657 meters.
 
-The elevation points of this python function are exatcly the same as gdallocationinfo for test points in four quadrants. You can use this function as a stand alone one point query tool, or incorporate it in other applications (such as appending SRTM-based elevations to GPS tracks: my next project)
+The elevation points of this python function are exatcly the same as gdallocationinfo for test points in four quadrants. You can use this function as a stand alone one point query tool, or incorporate it in other applications (such as appending SRTM-based elevations to GPS tracks). [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
