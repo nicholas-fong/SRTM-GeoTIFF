@@ -1,1 +1,3 @@
-Comments
+Comments:
+
+USGS EarthExplorer usage notes:
