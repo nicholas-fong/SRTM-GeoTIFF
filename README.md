@@ -9,3 +9,10 @@ The EarthExplorer download file name example: n23_w113_3arc_v2.tif, _3arc can be
 You can have a choice of Non-Void Filled, Void-Filled, and 1 Arc-Second Global.
 For convenience, I delete trailing characters using regex 's/_.arc_v.//'  and just use n23_w113.tif
 
+To use:
+assuming (3 Arc-Second) n49_w123.tif is in the same directory as read_srtm.py
+python read_srtm.py 49.68437 -122.14162
+elevation is 644 meters.
+Now replace n49_w123.tif with the 1 Arc-Second version,
+python read_srtm.py 49.68437 -122.14162
+elevation is 657 meters.
