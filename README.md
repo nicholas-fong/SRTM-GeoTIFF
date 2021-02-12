@@ -6,19 +6,21 @@ This Python function automatically adapts to different tile sizes such as 1201x1
 This function relys on these libraries: rasterio, numpy and math.
 The function determines which tile_name to use based on latitude and longitude, tries to open that file from a local directory or network directory. If the file does not exist, it throws an error. Use EarthExplorer to download the correct file and try again.
 
-EarthExplorer downloaded file name example: n23_w123_3arc_v2.tif, _3arc can be _1arc, _v2 can be _v1 or _v3, depending on your choices and data availability. 
-You can have a choice of Non-Void Filled, Void-Filled, and 1 Arc-Second Global.
+EarthExplorer downloaded file name example: n23_w123_3arc_v2.tif<br>
+_3arc is sampled at 3 arc-seconds (approximately 90 meters)<br>
+_1arc is sampled at 1 arc-seconds ((approximately 30 meters)<br>
+_v1 _v2 _v3 = Non-Void Filled, Void-Filled, 1 arc-second<br>
 
-For convenience, I delete trailing characters using regex 's/_.arc_v.//'  and simply use n23_w123.tif
+For convenience, I delete trailing characters using regex **'s/_.arc_v.//'**  and simply use something like n23_w123.tif
 
-To use:
-assuming (3 Arc-Second) n49_w123.tif is already in the same directory as read_srtm.py
+Example usage:
+assuming (3 arc-seconds) n49_w123.tif is already in the same directory as read_srtm.py
 
 python read_srtm.py 49.68437 -122.14162
 
 elevation is 644 meters.
 
-Now download from EarthExplorer the 1 Arc-Second version of  n49_w123.tif,
+Next download from EarthExplorer the 1 arc-second version of n49_w123.tif,
 
 python read_srtm.py 49.68437 -122.14162
 
