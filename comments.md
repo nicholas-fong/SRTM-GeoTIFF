@@ -1,6 +1,6 @@
 Comments:<br>
 USGS EarthExplorer usage notes:<br>
-If you want to use Bulk Download, you need to install and use "Bulk Order Application" on your desktop (see step 3b)<br>
+If you want to use Bulk Download, you **need** to install and use "Bulk Order Application" on your desktop (see step 3b)<br>
 
 (1) Using polygon to draw the corners of an area on interest. <br>
 (2) In the Data Sets tab, select SRTM Void Filled (3 Arc-Second, 1.4Mb or 2.8Mb per tile) or SRTM 1 Arc-Second Global (28 Mb per tile) <br>
