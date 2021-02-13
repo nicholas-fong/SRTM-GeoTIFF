@@ -21,4 +21,4 @@ Next download from EarthExplorer a 1 arc-second version of n49_w123.tif,<br>
 $python read_srtm.py 49.68437 -122.14162<br>
 elevation is 657 meters.
 
-The return value of this python function is exatcly the same as **gdallocationinfo** for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
+The return value of this simple python function is exatcly the same as **gdallocationinfo** for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
