@@ -15,15 +15,11 @@ For convenience, I delete trailing characters using regex **'s/_.arc_v.//'**  an
 
 Example usage:
 assuming (3 arc-seconds) n49_w123.tif is already in the same directory as read_srtm.py
-
 python read_srtm.py 49.68437 -122.14162
-
 elevation is 644 meters.
 
 Next download from EarthExplorer the 1 arc-second version of n49_w123.tif,
-
 python read_srtm.py 49.68437 -122.14162
-
 elevation is 657 meters.
 
 The elevation points of this python function are exatcly the same as gdallocationinfo for test points in four quadrants. You can use this function as a stand alone one point query tool, or incorporate it in other applications (e.g. appending SRTM-based elevation points to a GPS track).
