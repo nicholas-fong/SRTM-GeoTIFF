@@ -1,5 +1,5 @@
 # SRTM-GeoTIFF
-A Python function to read SRTM elevation from a GeoTIFF file downloaded from USGS EarthExplorer delivery system.
+A simple Python function to read SRTM elevation from a GeoTIFF file downloaded from USGS EarthExplorer delivery system.
 The USGS EarthExplorer is USGS's preferred method to download SRTM data files. Previously, SRTM tiles were available in .hgt format, but the new EarthExplorer delivery/download only allows BIL, DTED or GeoTIFF file types.<br>
 There is a learning curve to use EarthExplorer, once it is mastered, it can as useful as the defunct ftp or http delivery methods, except slower.<br>
 This Python function automatically adapts to different tile sizes such as 1201x1201 (3 arc), 3601x3601 (1 arc). It also understands 1201x601 (1201-high,601-wide) for tiles above 50° north and below 50° south. These areas are sampled at a resolution of 2 arc-second by 1 arc-second.<br>
