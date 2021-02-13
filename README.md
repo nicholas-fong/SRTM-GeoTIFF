@@ -14,11 +14,11 @@ For simplicity and convenience, I delete some characters using regular expressio
 
 Example usage:
 assuming a 3 arc-seconds n49_w123.tif is already in the current working directory,<br>
-python read_srtm.py 49.68437 -122.14162<br>
+$python read_srtm.py 49.68437 -122.14162<br>
 elevation is 644 meters.
 
 Next download from EarthExplorer a 1 arc-second version of n49_w123.tif,<br>
-python read_srtm.py 49.68437 -122.14162<br>
+$python read_srtm.py 49.68437 -122.14162<br>
 elevation is 657 meters.
 
 The return value of this python function is exatcly the same as **gdallocationinfo** for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
