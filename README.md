@@ -13,7 +13,6 @@ For simplicity and convenience, I delete some characters using regular expressio
 
 # Examples:
 ```
-
 $python read_srtm.py 49.68437 -122.14162
 (assuming a 3 arc-seconds n49_w123.tif is already in the current working directory)
 elevation is 644 meters.
