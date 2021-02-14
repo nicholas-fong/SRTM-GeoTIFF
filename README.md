@@ -15,19 +15,19 @@ For simplicity and convenience, I delete some characters using regular expressio
 ```
 $python read_srtm.py 49.68437 -122.14162
 (assuming a 3 arc-seconds n49_w123.tif is already in the current working directory)
-elevation is 644 meters.
+elevation is 644 meters (Squamish, BC, Canada)
 
 (Next download from EarthExplorer a 1 arc-second version of n49_w123.tif)
 $python read_srtm.py 49.68437 -122.14162
-elevation is 657 meters.
+elevation is 657 meters (Squamish, BC, Canada)
 
 $python read_srtm.py 31.5485 35.4675
-GeoTIFF tile: n31_e035.tif
-elevation is -415 meters (Dead Sea)
+GeoTIFF tile used: n31_e035.tif
+elevation is -415 meters (Dead Sea, Israel)
 
 $python read_srtm.py -32.653197 -70.0112
 GeoTIFF tile used: s33_w071.tif
-elevation 6930 meters (Aconcagua, Argentina)
+elevation is 6930 meters (Aconcagua, Argentina)
 
 ```
 The return value of this simple python function is exatcly the same as **gdallocationinfo** for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
