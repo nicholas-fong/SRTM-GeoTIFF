@@ -30,4 +30,4 @@ GeoTIFF tile used: s33_w071.tif
 elevation is 6929 meters (Aconcagua, Argentina)
 
 ```
-The return value of this simple Python function is exatcly the same as **gdallocationinfo** for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
+The return value of this simple Python function is exatcly the same as [gdallocationinfo](https://gdal.org/programs/gdallocationinfo.html) for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
