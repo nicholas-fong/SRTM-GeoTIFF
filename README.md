@@ -1,4 +1,4 @@
-# SRTM-GeoTIFF
+## SRTM-GeoTIFF
 A simple Python function to read SRTM elevation from a GeoTIFF file downloaded from USGS EarthExplorer delivery system.
 The USGS EarthExplorer is USGS's preferred method to download SRTM data files. Previously, SRTM tiles were available in .hgt format, but the new EarthExplorer delivery/download only allows BIL, DTED or GeoTIFF file types.<br>
 There is a learning curve to use EarthExplorer, once it is mastered, it can as useful as the defunct ftp or http delivery methods, except slower.<br><br>
@@ -11,7 +11,7 @@ _v1 _v2 _v3 = Non-Void Filled, Void-Filled, 1 arc-second void-filled Global<br>
 
 For simplicity and convenience, I delete some characters using regular expression **'s/_.arc_v.//'**  and simply use something like n23_w123.tif
 
-# Examples:
+## Examples:
 ```
 $python read_srtm.py 49.68437 -122.14162
 (assuming a 3 arc-seconds n49_w123.tif is already in the current working directory)
