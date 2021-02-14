@@ -26,5 +26,9 @@ $python read_srtm.py 31.5485 35.4675
 GeoTIFF tile: n31_e035.tif
 elevation is -415 meters (Dead Sea)
 
+$python read_srtm.py -32.653197 -70.0112
+GeoTIFF tile used: s33_w071.tif
+elevation 6930 meters (Aconcagua, Argentina)
+
 ```
 The return value of this simple python function is exatcly the same as **gdallocationinfo** for test points in all four quadrants. You can use this function as a stand alone query tool, or incorporate it in other applications such as [gpx-add-SRTM-elevation](https://github.com/nicholas-fong/gpx-add-SRTM-elevation)
