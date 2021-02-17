@@ -13,8 +13,8 @@ Use EarthExplorer [helper](/EarthExplorer-howto.md) to manually select and downl
 ## Example:
 ```
 >>>import srtm1
->>>srtm1.read( './n22_e114.tif', 22.4101, 114.1246 )
-945  (Hong Kong, China)
+>>>srtm1.read( './n46_e008.tif', 46.854539, 8.49701)
+2698 (Lucern, Switzerland)
 >>>srtm1.read( './n49_w123.tif', 49.68437, -122.14162 )
 644  (British Columbia, Canada)
 >>>srtm1.read( './s33_w071.tif', -32.653197, -70.0112 )
@@ -27,5 +27,4 @@ Find which tile to use:
 >>>import tilename
 >>>tilename.find( 49.6, -122.1 )
 >>>'n49_w123.tif'
->>>
 ```
