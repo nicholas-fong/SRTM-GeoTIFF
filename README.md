@@ -1,14 +1,14 @@
 ## SRTM-GeoTIFF
-A simple yet powerful Python module to read elevation from raster-based SRTM files from a variety of data sources:<br>
+A simple yet powerful Python module to read elevation from raster-based SRTM files from a variety of data sources such as:<br>
 USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), USGS GMTED2010 (wide area)<br>
 File types supported: GeoTIFF, DTED, HGT, BIL<br>
-Data types supported: raster-based files with virtually no restrictions on geometry, resolutions and integer lat/lon boundaries.<br>
-The module calls gdal's GetGeoTransform (an Affine Transformation) to correctly translates latitude, longitude to pixel indices in the raster.
+Data types supported: raster-based files with virtually no restrictions on pixel aspect ratio, resolutions and integer lat/lon boundaries.<br>
+This module calls GDAL's GetGeoTransform (Affine Transformation) to correctly translates latitude, longitude to pixel indices to access the raster.
 
-The more challenging task is to find which tile/filename to use for a particular lat/lon point, especially each data source uses their own file naming convention.
-For personal use, I prefer EarthExplorer's GeoTIFF because the file naming convention is very similar to .hgt and is easily parsed. This naming convention however is restriced to 1&deg; x 1&deg; tiles. CGIAR-CSI publishes 5&deg; x 5&deg; tiles.
+The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon point, especially each data source uses their own file naming convention.
+For personal use, I prefer EarthExplorer's GeoTIFF because the file naming convention is very similar to .hgt and is easily parsed. This naming convention however is restriced to 1&deg; x 1&deg; tiles. Data sorce such as CGIAR-CSI publishes 5&deg; x 5&deg; tiles does not fit this naming convention without modifications.
 
-Use EarthExplorer [helper](/EarthExplorer-howto.md) to manually select and download GeoTIFF or DTED files.
+Use EarthExplorer [primer](/EarthExplorer-howto.md) to interactively select and download GeoTIFF or DTED files.
 
 ## Example:
 ```
