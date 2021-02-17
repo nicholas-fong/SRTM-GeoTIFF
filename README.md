@@ -2,7 +2,7 @@
 A simple yet powerful Python module to read elevation from raster-based SRTM files from a variety of data sources:<br>
 USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), USGS GMTED2010 (wide area)<br>
 File types supported: GeoTIFF, DTED, HGT, BIL<br>
-Data types supported: raster-based files with virtually no restrictions on geometry, resolutions and lat/lon boundary.<br>
+Data types supported: raster-based files with virtually no restrictions on geometry, resolutions and integer lat/lon boundaries.<br>
 The module calls gdal's GetGeoTransform (an Affine Transformation) to correctly translates latitude, longitude to pixel indices in the raster.
 
 The more challenging task is to find which tile/filename to use for a particular lat/lon point, especially each data source uses their own file naming convention.
