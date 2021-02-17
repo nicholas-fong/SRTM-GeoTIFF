@@ -12,7 +12,7 @@ def read(my_file, lat, lon):
     yL = int((lat - GT[3]) / y_pixel_size )
     return ( int( band1.ReadAsArray(xP,yL,1,1) ) )
 
-# gda; Affine GetGeoTransform interprets different file formats, tile sizes and resolutions
+# gdal Affine GetGeoTransform interprets different file formats, tile sizes and resolutions
 # File formats supported: GeoTIFF, DTED, HGT, BIL
 # Data sources: USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography, GMTED2010
 
