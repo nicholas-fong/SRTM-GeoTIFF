@@ -17,7 +17,7 @@ Use EarthExplorer [helper](/EarthExplorer-howto.md) to manually select and downl
 644  (British Columbia, Canada)
 >>>srtm1.read( './s33_w071.tif', -32.653197, -70.0112 )
 6929  (Aconcagua, Argentina)
->>>srtm1.read( 's36_e149.tif', -35.2745, 149.09752 )
+>>>srtm1.read( './s36_e149.tif', -35.2745, 149.09752 )
 810  (Canberra, Australia)
 ```
 Find which tile to use:
