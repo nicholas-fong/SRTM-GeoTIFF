@@ -4,7 +4,7 @@ USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), USGS GMTE
 
 File types supported: GeoTIFF, DTED, HGT, BIL
 
-Data types supported: raster-based files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner of the tile to the interger intersection of latitude and longitude.
+Data types supported: raster-based files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner pixel to the interger intersection of latitude and longitude.
 
 This module calls GDAL's GetGeoTransform (Affine Transformation) to correctly translate latitude, longitude into pixel indices to access the raster.
 
