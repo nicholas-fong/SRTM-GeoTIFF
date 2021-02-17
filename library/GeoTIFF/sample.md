@@ -1,1 +1,1 @@
-Some samle GeoTIFF from USGS EarthExplorer
+Sample 3 arc-second GeoTIFF from USGS EarthExplorer
