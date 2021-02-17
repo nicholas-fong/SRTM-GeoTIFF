@@ -1,6 +1,6 @@
 import math
 
-def which ( latitude, longitude ):
+def find ( latitude, longitude ):
     if  ( latitude >= 0.0 and longitude >= 0.0 ):
         hemi, meri = "n", "e"
         t1 = f"{math.floor(latitude):02d}"
