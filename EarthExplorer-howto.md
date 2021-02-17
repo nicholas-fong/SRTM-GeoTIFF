@@ -10,4 +10,4 @@ If you want to use `Bulk Download`, you **need** to install and use "Bulk Order 
 
 or
 
-(3b) Click the `Add to Bulk Download` icon (black down arrow), click `View Item Basket` (on this page, 10 Scenes means 10 tiles seclected), click `Start Order` button,  click the square checkbox, select `GeoTIFF`. Click `Submit Product Selection` button, click `Bulk Order Tracking Page`. Launch the desktop "Bulk Order Application" and proceed from there.
+(3b) Click the `Add to Bulk Download` icon (black down arrow), click `View Item Basket` (on this page, 10 Scenes means 10 tiles seclected), click `Start Order` button,  click the `square checkbox`, select `GeoTIFF`. Click `Submit Product Selection` button, click `Bulk Order Tracking Page`. Launch the desktop "Bulk Order Application" and proceed from there.
