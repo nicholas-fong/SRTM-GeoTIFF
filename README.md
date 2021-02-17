@@ -20,7 +20,7 @@ Use EarthExplorer [helper](/EarthExplorer-howto.md) to manually select and downl
 >>>srtm1.read( 's36_e149.tif', -35.2745, 149.09752 )
 810  (Canberra, Australia)
 ```
-Finding which tile to use:
+Find which tile to use:
 ```
 >>>import tilename
 >>>tilename.find( 49.6, -122.1 )
