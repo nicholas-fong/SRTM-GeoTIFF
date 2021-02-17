@@ -13,10 +13,12 @@ Use EarthExplorer [helper](/EarthExplorer-howto.md) to manually select and downl
 ## Example:
 ```
 >>>import srtm1
+>>>srtm1.read( './n22_e114.tif', 22.4101, 114.1246 )
+945  (Hong Kong, China)
 >>>srtm1.read( './n49_w123.tif', 49.68437, -122.14162 )
 644  (British Columbia, Canada)
 >>>srtm1.read( './s33_w071.tif', -32.653197, -70.0112 )
-6929  (Aconcagua, Argentina)
+6929 (Aconcagua, Argentina)
 >>>srtm1.read( './s36_e149.tif', -35.2745, 149.09752 )
 810  (Canberra, Australia)
 ```
