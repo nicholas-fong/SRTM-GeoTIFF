@@ -21,3 +21,9 @@ Use EarthExplorer [helper](/EarthExplorer-howto.md) to manually select and downl
 >>>6929
 (Aconcagua, Argentina)
 ```
+```
+>>>import tilename
+>>>tilename.find( 49.6, -122.1 )
+>>>'n49_w123.tif'
+>>>
+```
