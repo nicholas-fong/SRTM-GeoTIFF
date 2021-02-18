@@ -5,9 +5,7 @@ USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), ALOS Worl
 
 File types supported: `GeoTIFF`, `DTED`, `HGT`, `BIL`
 
-Data type supported: raster-based files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner pixel to the intersection of integer latitude and integer longitude. ALOS and CGIAR-CSI tiles are 3600x3600. EarthExplorer tiles are 3601x3601, 1801x3601, 1201x1201, 601x1201. This module can handle all that (and more) automatically because of the Affine transformation.
-
-This module calls GDAL's GetGeoTransform (Affine Transformation) to correctly translate latitude, longitude into pixel indices to access the raster.
+Data type supported: raster-based files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner pixel to the intersection of integer latitude and integer longitude. ALOS and CGIAR-CSI tiles are 3600x3600. EarthExplorer tiles are 3601x3601, 1801x3601, 1201x1201, 601x1201. This module can handle all that (and more) comfortably because of GDAL's GetGeoTransform (Affine Transformation). It correctly translates latitude, longitude into pixel indices to access the raster.
 
 The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon point, especially each data source uses their own file naming convention. For personal use, I prefer EarthExplorer's `GeoTIFF` because the file naming convention is very similar to .hgt and is easily parsed (see tilename.py) and pass the filename to the srtm1 module. This naming convention however is designed for 1&deg; x 1&deg; tiles. Data source that has other file naming convention requires additional attention.
 
