@@ -1,6 +1,6 @@
 USGS EarthExplorer primer:
 
-If you want to use `Bulk Download`, you **need** to install and use "Bulk Order Application" on your desktop (see step 3b)
+If you want to use `Bulk Download`, you **need** to install and use "Bulk Order Application" on your desktop (before using step 3b)
 
 (1) Use polygon to mark the vertices of an area on interest.
 
