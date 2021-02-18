@@ -3,7 +3,7 @@ A simple yet powerful Python module to read elevation from raster-based SRTM fil
 
 USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), ALOS World 3D, USGS GMTED2010 (wide area), etc.
 
-File types supported: GeoTIFF, DTED, HGT, BIL
+File types supported: `GeoTIFF`, `DTED`, `HGT`, `BIL`
 
 Data type supported: raster-based files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner pixel to the intersection of integer latitude and integer longitude. ALOS and CGIAR-CSI tiles are 3600x3600. EarthExplorer tiles are 3601x3601, 1801x3601, 1201x1201, 601x1201. This module can handle all that (and more) automatically because of the Affine transformation.
 
