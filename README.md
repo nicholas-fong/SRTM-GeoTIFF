@@ -1,6 +1,7 @@
 ## SRTM-GeoTIFF
-A simple yet powerful Python module to read elevation from raster-based SRTM files from a variety of data sources such as:<br>
-USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), USGS GMTED2010 (wide area)
+A simple yet powerful Python module to read elevation from raster-based SRTM files from a variety of data sources such as:
+
+USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), ALOS World 3D, USGS GMTED2010 (wide area), etc.
 
 File types supported: GeoTIFF, DTED, HGT, BIL
 
