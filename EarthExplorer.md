@@ -2,7 +2,7 @@ USGS EarthExplorer primer:
 
 If you want to use `Bulk Download`, you **need** to install and use "Bulk Order Application" on your desktop (before using step 3b)
 
-(1) Use polygon to mark the vertices of an area on interest.
+(1) Use polygon to mark the vertices of an area of interest.
 
 (2) In the `Data Sets` tab, select `Digital Elevation` `SRTM`, choose `SRTM Void Filled` (3 Arc-Seconds &sim; 3 MB) or `SRTM 1 Arc-Second Global` (1 Arc-Second &sim; 25 MB)
 
