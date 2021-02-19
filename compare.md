@@ -15,4 +15,4 @@ Comparision of different SRTM data files from various sources:
 | Compression | none | none | LZW | none | LZW |  |
 
 
-* Data files without embedded metadata is subject to other files with identical file name corrupting the results. This could happen if the filename is accidentially changed.
+* HGT files without embedded metadata is subject to other HGT files with identical file name corrupting the results. This could happen if the filename is accidentially changed.
