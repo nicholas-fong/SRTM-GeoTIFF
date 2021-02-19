@@ -11,8 +11,8 @@ Comparision of different SRTM data files from various sources:
 | Aspect Ratio | square | square | square | square | any | square |
 | 1 pixel Oversize | yes | yes | yes | no |  | no |
 | Area or Point | point | point | area | area | area | area |
-| no data returns | -32768 | -32767 | | | 0 |  |
-| Compression | none | none | LZW | none | LZW |  |
+| no data returns | -32768 | -32767 | | | 0 | -32768 |
+| Compression | none | none | LZW | none | LZW | none |
 
 
 * HGT files without embedded metadata is subject to other HGT files with identical file name corrupting the results. This could happen if the filename is accidentially changed.
