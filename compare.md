@@ -9,9 +9,9 @@ Comparision of different SRTM data files from various sources:
 | Embedded Metadata | no | yes | yes | yes | yes | yes |
 | Pixel Dimension | 3601x3601 | 3601x3601 | 3601x3601 | 3600x3600 | any | 6000x6000 |
 | Aspect Ratio | square | square | square | square | any | square |
-| 1 pixel Oversize | yes | yes | yes | no |  | no |
+| 1 pixel Oversize (1 pixel Overlap) | yes | yes | yes | no |  | no |
 | Area or Point | point | point | area | area | area | area |
-| no data returns | -32768 | -32767 | | | 0 | -32768 |
+| no data return value | -32768 | -32767 | | | 0 | -32768 |
 | Compression | none | none | LZW | none | LZW | none |
 
 
