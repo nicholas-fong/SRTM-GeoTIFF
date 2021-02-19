@@ -9,7 +9,7 @@ Data type supported: raster-based files with virtually no restrictions on pixel 
 
 The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon point, especially each data source uses their own file naming convention. For personal use, I prefer EarthExplorer's `GeoTIFF` because the file naming convention is very similar to .hgt and is easily parsed (see tilename.py) and pass the filename to the srtm1 module. This naming convention however is designed for 1&deg; x 1&deg; tiles. Data source that has other file naming convention requires additional attention.
 
-If you are new to EarthExplorer, you may find this [primer](/EarthExplorer.md) helpful to interactively select and download GeoTIFF files.
+If you are new to EarthExplorer, this [primer](/EarthExplorer.md) may be helpful to interactively select and download GeoTIFF files.
 
 ### Example:
 ```
