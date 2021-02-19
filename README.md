@@ -1,15 +1,15 @@
 ## SRTM-GeoTIFF
 A simple yet powerful Python module to read elevation from raster-based SRTM files from a variety of data sources such as:
 
-USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), ALOS World 3D, USGS GMTED2010 (wide area), etc.
+USGS EarthExplorer, CGIAR-CSI, NASA ASTER GDEM, OpenTopography (UCSD), ALOS World 3D, etc.
 
 File types supported: `GeoTIFF`, `DTED`, `HGT`, `BIL`
 
-Data type supported: raster-based files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner pixel to the intersection of integer latitude and integer longitude. ALOS and CGIAR-CSI tiles are 3600x3600. EarthExplorer tiles are 3601x3601, 1801x3601, 1201x1201, 601x1201. This module can handle all that (and more) comfortably because of GDAL's GetGeoTransform (Affine Transformation). It correctly translates latitude, longitude into pixel indices to access the raster.
+Data type supported: raster files with virtually no restrictions on pixel dimensions or aspect ratio, plus there is no need to align a corner pixel to the intersection of integer latitude and integer longitude. CGIAR-CSI 5&deg; x 5&deg; tiles and ALOS are 3600x3600. EarthExplorer rasters can be 3601x3601, 1801x3601, 1201x1201, 601x1201. This module can handle all comfortably because GDAL's GetGeoTransform (Affine Transformation) can translate latitude, longitude into pixel indices.
 
-The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon point, especially each data source uses their own file naming convention. For personal use, I prefer EarthExplorer's `GeoTIFF` because the file naming convention is very similar to .hgt and is easily parsed (see tilename.py) and pass the filename to the srtm1 module. This naming convention however is designed for 1&deg; x 1&deg; tiles. Data source that has other file naming convention requires additional attention.
+The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal use, I prefer EarthExplorer's `GeoTIFF` because the file naming convention is similar to .hgt and is easily parsed (see tilename.py). This naming convention however is designed for 1&deg; x 1&deg; tiles. Data files that has other file naming convention requires additional attention.
 
-If you are new to EarthExplorer, this [primer](/EarthExplorer.md) may be helpful to interactively select and download GeoTIFF files.
+For new users to EarthExplorer, this [primer](/EarthExplorer.md) may be helpful to interactively select and download GeoTIFF files.
 
 ### Example:
 ```
