@@ -1,3 +1,6 @@
+# determine file name of USGS EarthExplorer's GeoTIFF file based on input latitude longitude
+# 1 degree x 1 degree oriented file naming convention.
+
 import math
 
 def find ( latitude, longitude ):
