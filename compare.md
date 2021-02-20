@@ -7,8 +7,7 @@ Comparision of different SRTM data files from various sources:
 | Tile area | 1&deg; x 1&deg; |1&deg; x 1&deg; | 1&deg; x 1&deg; | 1&deg; x 1&deg; | any | 5&deg; x 5&deg; |
 | Resolution | 30 m | 30 m | 30 m | 30 m | 90 m | 90 m |
 | Embedded Metadata | no | yes | yes | yes | yes | yes |
-| Pixel Dimension | 3601x3601 | 3601x3601 | 3601x3601 | 3600x3600 | any | 6000x6000 |
-| Aspect Ratio | square | square | square | square | any | square |
+| Pixel Dimension (Aspect Ratio) | 3601x3601 | 3601x3601 | 3601x3601 | 3600x3600 | any | 6000x6000 |
 | 1 pixel Oversize (1 pixel Overlap) | yes | yes | yes | no |  | no |
 | Area or Point | point | point | area | area | area | area |
 | no data return value | -32768 | -32767 | | | 0 | -32768 |
