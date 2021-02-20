@@ -14,18 +14,18 @@ The more challenging task is perhaps to find which tile/filename to use for a pa
 ### Example:
 ```
 >>>import srtm1
->>>srtm1.read( './n46_e008.tif', 46.854539, 8.49701)
+>>>srtm1.read( './N46E008.tif', 46.854539, 8.49701)
 2698 (Lucern, Switzerland)
->>>srtm1.read( './n49_w123.tif', 49.68437, -122.14162 )
+>>>srtm1.read( './nN49W123.tif', 49.68437, -122.14162 )
 644  (British Columbia, Canada)
->>>srtm1.read( './s33_w071.tif', -32.653197, -70.0112 )
+>>>srtm1.read( './S33W071.tif', -32.653197, -70.0112 )
 6929 (Aconcagua, Argentina)
->>>srtm1.read( './s36_e149.tif', -35.2745, 149.09752 )
+>>>srtm1.read( './S36E149.tif', -35.2745, 149.09752 )
 810  (Canberra, Australia)
 ```
 Find out which 1&deg; x 1&deg; tile to use:
 ```
 >>>import tilename
 >>>tilename.find( 49.6, -122.1 )
->>>'n49_w123.tif'
+>>>'N49W123.tif'
 ```
