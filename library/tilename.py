@@ -1,5 +1,9 @@
-# determine file name of USGS EarthExplorer's GeoTIFF file based on input latitude longitude
-# 1 degree x 1 degree oriented file naming convention.
+# determine file name of GeoTIFF file based on latitude longitude
+# For square tiles: 1 degree x 1 degree, 1 pixel overlap. 
+# Minor style difference between NASA ASTER and USGS EarthExplorer
+# NASA ASTER use N E S W; USGS use lowercase n e s w
+# NASA does not use _ in the file name, USGS uses _ as a separator
+
 
 import math
 
@@ -22,4 +26,3 @@ def find ( latitude, longitude ):
         t2 = f"{math.floor(longitude):03d}"
     return( f"{hemi}{t1}_{meri}{t2}.tif" ) 
     
-# can be simplified further    
