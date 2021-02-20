@@ -3,7 +3,7 @@ Comparision of different SRTM data files from various sources:
 
 | Source | SRTM Traditional  | USGS EarthExplorer | ASTER (NASA) | ALOS (AW3D30) | OpenTopography | CGIAR-CSI |
 | ----  |:-----:|:-----:|:------:|:-------:|:------:|:----:|
-| File type  |  HGT  |  GeoTIFF or DTED  | GeoTIFF | GeoTIFF | GeoTIFF | GeoTIFF |
+| File type  |  HGT  |  GeoTIFF / DTED  | GeoTIFF | GeoTIFF | GeoTIFF | GeoTIFF |
 | Tile area | 1&deg; x 1&deg; |1&deg; x 1&deg; | 1&deg; x 1&deg; | 1&deg; x 1&deg; | any | 5&deg; x 5&deg; |
 | Resolution | 30 m | 30 m | 30 m | 30 m | 90 m | 90 m |
 | Embedded Metadata | no | yes | yes | yes | yes | yes |
@@ -15,4 +15,4 @@ Comparision of different SRTM data files from various sources:
 
 
 * HGT files without embedded metadata is subject to other HGT files with identical file name corrupting the results. This could happen if the filename is accidentially changed.
-* Tiles without 1 pixel overlap, file name selection algorithm needs to be different than those with 1 pixel overlap to avoid out of bound indices. [This algorithm](/library/tilename.py) only works for tiles with 1 pixel overlap.
+* For files without 1 pixel overlap, the file name selection algorithm needs to be different to avoid out of range errors at the boundary. [This algorithm](/library/tilename.py) works for files with 1 pixel overlap (HGT, USGS, NASA).
