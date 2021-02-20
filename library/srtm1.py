@@ -6,7 +6,7 @@ def read(my_file, lat, lon):
     GT = data.GetGeoTransform()
     # gdal's Affine Transformation (GetGeoTransform)
     # GetGeoTransform translates latitude, longitude to pixel indices
-    # GT[0] and GT[3] defines the "origin": top left corner pixel 
+    # GT[0] and GT[3] define the "origin": top left pixel 
     x_pixel_size = GT[1]    #horizontal pixel size
     y_pixel_size = GT[5]    #vertical pixel size
     xP = int((lon - GT[0]) / x_pixel_size )
