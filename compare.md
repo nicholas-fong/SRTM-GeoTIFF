@@ -15,3 +15,4 @@ Comparision of different SRTM data files from various sources:
 
 
 * HGT files without embedded metadata is subject to other HGT files with identical file name corrupting the results. This could happen if the filename is accidentially changed.
+* Tiles without 1 pixel overlap, file name selection algorithm needs to be different than those with 1 pixel overlap to avoid out of bound indices. [This algorithm](/library/tilename.py) only works for tiles with 1 pixel overlap.
