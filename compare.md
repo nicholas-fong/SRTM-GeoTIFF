@@ -10,7 +10,7 @@ Comparision of different SRTM data files from various sources:
 | Pixel Dimension (Aspect Ratio) | 3601x3601 | 3601x3601 | 3601x3601 | 3600x3600 | see note | 6000x6000 |
 | 1 pixel Oversize (1 pixel Overlap) | yes | yes | yes |  |  see note| no |
 | Area or Point | area | point | point | area | area | area |
-| no data return value |  | -32767 | -32768 | | 0 | -32768 |
+| no data return value |  | -32767 | -32768 |   |  | -32768 |
 | Compression | LZW | none | none | none | LZW | none |
 
 
