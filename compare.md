@@ -15,4 +15,4 @@ Comparision of different SRTM data files from various sources:
 
 
 * HGT files without embedded metadata is subject to other HGT files with identical file name corrupting the results. This could happen if the filename is accidentially changed.
-* For files without 1 pixel overlap, the file name selection algorithm needs to be different to avoid out of range errors at the boundary. [This algorithm](/library/tilename.py) works for files with 1 pixel overlap (ASTER HGT, USGS GeoTIFF/DTED, ASTER GeoTIFF).
+* For files without 1 pixel overlap, the file name selection algorithm needs to be different to handle out of range errors at the boundary. [This algorithm](/library/tilename.py) works for files with 1 pixel overlap (ASTER HGT, USGS GeoTIFF/DTED, ASTER GeoTIFF).
