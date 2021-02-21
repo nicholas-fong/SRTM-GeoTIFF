@@ -7,7 +7,7 @@ File types supported: `GeoTIFF`, `DTED`, `HGT`, `BIL`
 
 Data type supported: raster files with few restrictions on pixel dimensions or aspect ratios, there is no need to align a corner pixel to the intersection of integer latitude and integer longitude. ASTER GDEM 1&deg; x 1&deg; 3601x3601. ALOS 1&deg; x 1&deg; 3600x3600. CGIAR-CSI 5&deg; x 5&deg; 6000x6000. USGS 1&deg; x 1&deg; 3601x3601 and 1801x3601. USGS 3&deg; x 3&deg; 1201x1201 and 601x1201. This module calls GDAL's GetGeoTransform (Affine Transformation) to translate latitude, longitude into pixel indices. It handles LZW compressed raster automagically.
 
-The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I use NASA's ASTER GDEM `GeoTIFF` since the file naming convention is almost exactly as SRTM .hgt. This naming convention however is designed for 1&deg; x 1&deg; with 1 pixel overlap tiles. Data files that has other tile-size and naming convention require additional development.
+The more challenging task is perhaps to find which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I use NASA's ASTER GDEM `GeoTIFF` since the file naming convention is almost exactly as original SRTM .hgt. This naming convention however is designed for 1&deg; x 1&deg; with 1 pixel overlaping tiles. For ALOS 3600x3600 non-overlapping tiles, a small module is included to parse lat/lon to the correct filename.
 
 [NASA ASTER GDEM ASTGTM](https://search.earthdata.nasa.gov/search/) user interface is straight forward. For new users to EarthExplorer, this [primer](/EarthExplorer.md) may be helpful. 
 
@@ -23,9 +23,21 @@ The more challenging task is perhaps to find which tile/filename to use for a pa
 >>>srtm1.read( './S36E149.tif', -35.2745, 149.09752 )
 810  (Canberra, Australia)
 ```
-Find out which 1&deg; x 1&deg; tile to use:
+Find out which tile to use:
+For NASA and USGS 1 pixel overlapping square tiles:
 ```
->>>import tilename
->>>tilename.find( 49.6, -122.1 )
->>>'N49W123.tif'
+>>> import tilename
+>>> tilename.find( 49.6, -122.1 )
+>>> 'N49W123.tif'
+>>> tilename.find( 49, -122.1 )
+>>> 'N49W123.tif'
 ```
+For ALOS non-overlapping square tiles:
+```
+>>> import tile_alos
+>>> tile_alos.find ( 49.6, -122.1 )
+>>> 'N49W123.tif'
+>>> tile_alos.find ( 49, -122.1 )
+>>> 'N48W123.tif' 
+```
+Subtle difference, but important to avoid out of bound errors in batch processing

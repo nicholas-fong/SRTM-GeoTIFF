@@ -15,8 +15,8 @@ Comparision of different SRTM data files from various sources:
 
 
 * HGT files without embedded metadata is vulnerable to data corruption by other HGT files with same file name.
-* For square files without overlaping pixels (e.g. ALOS), a new file name selection algorithm needs to be developed to handle "out of range error" at the edges. 
-* [This algorithm](/library/tilename.py) works well for square tiles with 1 pixel overlap (NASA, USGS).
+* [This algorithm](/library/tilename.py) works for selecting tiles with overlapping pixel (e.g. NASA, USGS).
+* [Alternate algorithm](/library/tile_alos.py) is needed for selecting tiles with non-overlaping pixel (e.g. ALOS). It has not been stress tested.
 * My preference is NASA ASTER because it has LZW compression and it returns Area data instead of Pixel data.
-* For "tough area" such as Himalayas, ALOS produces excellent results (excellent accuracy and no voids).
+* For "tough area" such as Himalayas, ALOS produces excellent accuracy and no voids.
 * OpenTopography extracts data from ALOS AW3D30, SRTM 1 arc-second or 3 arc-seconds and assembles them to an arbitrary tile area specified by you.
