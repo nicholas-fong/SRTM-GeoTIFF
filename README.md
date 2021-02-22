@@ -18,7 +18,7 @@ The more challenging task is perhaps to find out which tile/filename to use for 
 >>>import srtm1
 >>>srtm1.read( './N46E008.tif', 46.854539, 8.49701)
 2698 (Lucern, Switzerland)
->>>srtm1.read( './nN49W123.tif', 49.68437, -122.14162 )
+>>>srtm1.read( './N49W123.tif', 49.68437, -122.14162 )
 644  (British Columbia, Canada)
 >>>srtm1.read( './S33W071.tif', -32.653197, -70.0112 )
 6929 (Aconcagua, Argentina)
