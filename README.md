@@ -44,4 +44,4 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 >>> tile_alos.find ( 49, -122.1 )
 >>> 'N48W123.tif' 
 ```
-Subtle difference, but critical to avoid out of bound errors when latitude and/or longitude is an exact integer (e.g. batch processing).
+Subtle difference, but critical to avoid out of range errors when latitude is an integer.
