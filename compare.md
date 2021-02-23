@@ -8,7 +8,7 @@ Comparision of different SRTM data files from various sources:
 | Resolution | 30 m | 30 m | 30 m | 30 m | 30 m or 90 m | 90 m |
 | Embedded Metadata | yes | yes | no * | yes | yes | yes |
 | Pixel Dimension (Aspect Ratio) | 3601x3601 | 3601x3601 | 3601x3601 | 3600x3600 | see note | 6000x6000 |
-| 1 pixel Overlap | yes | yes | yes | non-overlap  |  see note|  |
+| 1 pixel overlapping tiles | yes | yes | yes | non-overlap  |  see note|  |
 | Area or Point | area | point | point | area | area | area |
 | no data return value |  | -32767 | -32768 |   |  | -32768 |
 | Compression | LZW | none | none | none | LZW | none |
