@@ -1,5 +1,5 @@
 ## SRTM-GeoTIFF
-A simple and versatile Python module to read elevation data from raster-based SRTM files from data sources such as:
+A simple and versatile Python snippet to read elevation data from raster-based SRTM files from data sources such as:
 
 `NASA ASTER GDEM` `USGS EarthExplorer` `ALOS World 3D` `OpenTopography` `CGIAR-CSI`
 
@@ -7,7 +7,7 @@ File types supported: `GeoTIFF`, `DTED`, `HGT`, `BIL`
 
 Data type supported: raster files with few restrictions on pixel dimensions or aspect ratios. It can handle file types like: NASA ASTER GDEM 3601x3601. ALOS 3600x3600. CGIAR-CSI 6000x6000. USGS 3601x3601, 1801x3601, 1201x1201 and 601x1201.
 
-This module makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotransforms_tut.html) (Affine Transformation) to translate latitude, longitude into pixel indices. It also handles LZW compressed rasters automagically.
+This snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotransforms_tut.html) (Affine Transformation) to translate latitude, longitude into pixel indices. It also handles LZW compressed rasters automagically.
 
 The more challenging task is perhaps to find out which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I use NASA's ASTER GDEM `GeoTIFF` since the file [naming convention](/library/tilename.py) (with small additional regex manipulations) is almost exactly the same style as the original SRTM .hgt. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is needed to parse latitude and longitude to use the correct filename.
 
