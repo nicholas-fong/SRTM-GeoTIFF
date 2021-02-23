@@ -1,5 +1,5 @@
-# tile filename algorithm to find appropriate ALOS non overlapping SRTM file.
-# ALOS tiles are 6000 x 6000 non-overlapping; the algorithm is different than overlapping tiles.
+# An algorithm to find the file name for non-overlapping SRTM rasters such as ALOS.
+# ALOS rasters are 6000 x 6000 non-overlapping.
 
 import math
 
