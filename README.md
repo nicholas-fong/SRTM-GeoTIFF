@@ -36,6 +36,7 @@ For NASA and USGS (1 pixel overlapping tiles):
 >>> 'N49W123.tif'
 ```
 For ALOS (non-overlapping tiles):
+In words, if the latitude is exactly an integer, then use 1 tile further south compared to NASA's counterpart.
 ```
 >>> import tile_alos
 >>> tile_alos.find ( 49.6, -122.1 )
