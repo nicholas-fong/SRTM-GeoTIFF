@@ -32,16 +32,16 @@ For NASA and USGS (1 pixel overlapping tiles):
 >>> import tilename
 >>> tilename.find( 49.6, -122.1 )
 >>> 'N49W123.tif'
->>> tilename.find( 49, -122.1 )
+>>> tilename.find( 49.0, -122.1 )
 >>> 'N49W123.tif'
 ```
 For ALOS (non-overlapping tiles):
-In words, if the latitude is exactly an integer, then use 1 tile further south compared to NASA's counterpart.
+In words, if the latitude is exactly an integer, then use 1 tile further south compared to NASA's/USGS's counterpart.
 ```
 >>> import tile_alos
 >>> tile_alos.find ( 49.6, -122.1 )
 >>> 'N49W123.tif'
->>> tile_alos.find ( 49, -122.1 )
->>> 'N48W123.tif' 
+>>> tile_alos.find ( 49.0, -122.1 )
+>>> 'N48W123.tif'
 ```
 Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
