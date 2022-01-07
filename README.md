@@ -27,7 +27,7 @@ The more challenging task is perhaps to find out which tile/filename to use for 
 ```
 ### Determine which tile to use:
 
-For NASA and USGS (1 pixel overlapping tiles):
+For NASA and USGS (1-pixel overlapping tiles):
 ```
 >>> import tilename
 >>> tilename.find( 49.6, -122.1 )
