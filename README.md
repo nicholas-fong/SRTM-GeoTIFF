@@ -3,7 +3,7 @@ A simple and versatile Python snippet to read elevation data from raster-based S
 
 `NASA ASTER GDEM` `USGS EarthExplorer` `ALOS AW3D30` `OpenTopography`
 
-File types supported: `GeoTIFF`, `DTED`, `HGT`, `BIL`
+File types supported: Public Domain- `GeoTIFF`, Military- `DTED`, ESRI- `BIL` and legacy- `HGT`
 
 Data type supported: raster files with few restrictions on pixel dimensions or aspect ratios. It can handle file types like: NASA ASTER GDEM 3601x3601. ALOS AW3D30 3600x3600. USGS 3601x3601, 1801x3601, 1201x1201 and 601x1201.
 
