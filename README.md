@@ -1,17 +1,17 @@
 ## SRTM-GeoTIFF
 A simple and versatile Python snippet to read elevation data from raster-based SRTM files from data sources such as:
 
-`NASA ASTER GDEM` `USGS EarthExplorer` `ALOS AW3D30` `OpenTopography`
+`USGS EarthExplorer` `NASA ASTER GDEM`  `ALOS AW3D30` `OpenTopography`
 
 File types supported: Public Domain- `GeoTIFF`, Military- `DTED`, ESRI- `BIL` and legacy- `HGT`
 
 Data type supported: raster files with few restrictions on pixel dimensions or aspect ratios. It can handle file types like: NASA ASTER GDEM 3601x3601. ALOS AW3D30 3600x3600. USGS 3601x3601, 1801x3601, 1201x1201 and 601x1201.
 
-This snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotransforms_tut.html) (Affine Transformation) to translate latitude, longitude into pixel indices. It also handles LZW compressed rasters automagically.
+This snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotransforms_tut.html) (Affine Transformation) to translate the given latitude, longitude into pixel indices. It also handles LZW compressed rasters automagically.
 
-The more challenging task is perhaps to find out which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I use NASA's ASTER GDEM `GeoTIFF` since the file [naming convention](/library/tilename.py) (with small additional regex manipulations) is almost exactly the same style as the original SRTM .hgt. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is needed to parse latitude and longitude to use the correct filename.
+The more challenging task is perhaps to find out which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I used to use NASA's ASTER GDEM `GeoTIFF` since the file [naming convention](/library/tilename.py) (with small additional regex manipulations) is almost exactly the same style as the original SRTM .hgt. Unfortunately I cannot find GeoTIFF downloads from NASA's ASTER GDEM website. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is needed to parse latitude and longitude to use the correct filename.
 
-[ASTER GDEM](https://search.earthdata.nasa.gov/search/) user interface is farily straight forward. For new users to EarthExplorer, this [primer](/EarthExplorer.md) may be helpful. 
+[NASA's ASTER GDEM](https://search.earthdata.nasa.gov/search/) GeoTIFF download seems to be unavailable. Alternate source of GeoTIFF is USGS EarthExplorer, which is still available. This [primer](/EarthExplorer.md) may be helpful. 
 
 ### Example:
 ```
