@@ -11,7 +11,7 @@ This snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/ge
 
 The more challenging task is perhaps to find out which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I used to use NASA's ASTER GDEM `GeoTIFF` since the file [naming convention](/library/tilename.py) (with small additional regex manipulations) is almost exactly the same style as the original SRTM .hgt. Unfortunately I cannot find GeoTIFF downloads from NASA's ASTER GDEM website. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is needed to parse latitude and longitude to use the correct filename.
 
-[NASA's ASTER GDEM](https://search.earthdata.nasa.gov/search/) GeoTIFF download seems to be unavailable. Alternate source of GeoTIFF is USGS EarthExplorer, which is still available. This [primer](/EarthExplorer.md) may be helpful. 
+[NASA's ASTER GDEM](https://search.earthdata.nasa.gov/search/) GeoTIFF download seems to be unavailable. Another source of GeoTIFF is USGS EarthExplorer, which is still available. This [primer](/EarthExplorer.md) may be helpful. 
 
 ### Example:
 ```
