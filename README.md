@@ -15,15 +15,16 @@ The more challenging task is perhaps to find out which tile/filename to use for 
 
 ### Example:
 ```
+Using Python 3.10.6 and GDAL 3.4.3; Windows Subsystem Linux (Ubuntu 22.04)
 >>>import srtm1
 >>>srtm1.read( './N46E008.tif', 46.854539, 8.49701)
-2698 (Lucern, Switzerland)
+2691 (Lucern, Switzerland)
 >>>srtm1.read( './N49W123.tif', 49.68437, -122.14162 )
-644  (British Columbia, Canada)
+618  (British Columbia, Canada)
 >>>srtm1.read( './S33W071.tif', -32.653197, -70.0112 )
-6929 (Aconcagua, Argentina)
+6930 (Aconcagua, Argentina)
 >>>srtm1.read( './S36E149.tif', -35.2745, 149.09752 )
-810  (Canberra, Australia)
+801  (Canberra, Australia)
 ```
 ### Determine which tile to use:
 
