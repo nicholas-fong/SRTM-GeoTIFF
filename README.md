@@ -28,7 +28,7 @@ Using Python 3.10.6 and GDAL 3.4.3; Windows Subsystem Linux (Ubuntu 22.04)
 >>>srtm1.read( './N49W123.tif', 49.68437, -122.14162 )
 618  (British Columbia, Canada)
 >>>srtm1.read( './S33W071.tif', -32.653197, -70.0112 )
-6930 (Aconcagua, Argentina)
+6926 (Aconcagua, Argentina)
 >>>srtm1.read( './S36E149.tif', -35.2745, 149.09752 )
 801  (Canberra, Australia)
 ```
