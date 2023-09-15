@@ -23,12 +23,19 @@ ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry.
 ### Snippet to determine which GeoTIFF tile(s) to use:
 
 For NASA and USGS (1-pixel overlapping tiles):
-
+```
 $python3 whichtile.py
+```
 
-### Snippet to determine which GeoTIFF tile to use:
+For ALOS (non-overlapping tiles):<br>
+In words, if the latitude is exactly an integer, then use 1 tile further south compared to NASA's/USGS's counterpart.
+```
+$python3 whichalos.py
+```
 
-(superseded by whichtile.py above)<br>For NASA and USGS (1-pixel overlapping tiles):
+### older snippet to determine which GeoTIFF tile to use:
+
+For NASA and USGS (1-pixel overlapping tiles):
 ```
 >>> import tilename
 >>> tilename.find( 49.6, -122.1 )
@@ -57,11 +64,13 @@ $python3 geo2elev.py grouse-grind
 Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
-$Python3 gpx-add-elevation.py grouse-grind > grouse-grind-with-elevation.gpx
+$Python3 gpx-add-elevation.py grouse-grind
 ```
-### Find the elevation of a single location:
+### manually find the elevation of a single geolocation:
+
+Using Python 3.10.6 and GDAL 3.4.3; 
+Windows Subsystem Linux (Ubuntu 22.04)
 ```
-Using Python 3.10.6 and GDAL 3.4.3; Windows Subsystem Linux (Ubuntu 22.04)
 >>>import srtm1
 >>>srtm1.read( './N46E008.tif', 46.854539, 8.49701)
 2691 (Lucern, Switzerland)
