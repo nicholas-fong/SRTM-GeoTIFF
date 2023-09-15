@@ -14,11 +14,11 @@ The more challenging task is perhaps to find out which tile/filename to use for 
 Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:<br>
 ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry.
 
+[NASA's Earth Data](https://search.earthdata.nasa.gov/search/) 
+
 [USGS EarthExplorer](https://earthexplorer.usgs.gov/). Here is a [primer](/EarthExplorer.md) on how to download GeoTIFF from USGS EarthExplorer.
 
 [Japan Space Systems ASTER GDEM](https://gdemdl.aster.jspacesystems.or.jp/index_en.html).
-
-[NASA's Earth Data](https://search.earthdata.nasa.gov/search/) 
 
 ### Snippet to determine which GeoTIFF tile(s) to use:
 
