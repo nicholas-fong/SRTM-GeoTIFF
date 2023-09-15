@@ -19,13 +19,13 @@ Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:
 
 [NASA's Earth Data](https://search.earthdata.nasa.gov/search/) 
 
-### Interactive snippet to determine which tile(s) to use:
+### Snippet to determine which GeoTIFF tile(s) to use:
 
 For NASA and USGS (2-pixel overlapping tiles):
 
 whichtile.py
 
-### Determine which GeoTIFF tile to use:
+### Snippet to determine which GeoTIFF tile to use:
 
 (superseded by whichtile.py)<br>For NASA and USGS (1-pixel overlapping tiles):
 ```
@@ -46,19 +46,19 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 ```
 Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
 
-## Add elevation to gpx file
-A snippet to append or update SRTM elevation to waypoints, routes and tracks of a gpx file.<br>
-The snippet reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation.
-
-(Grouse Grind is a popular hiking trail in Vancouver, Canada)
-```
-$Python3 gpx-add-elevation.py grouse-grind > grouse-grind-with-elevation.gpx
-```
 ### Add elelvation to GeoJSON file
 Reads a geojson file and update or add elevation to Point, LineString and Polygon.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $python3 geo2elev.py grouse-grind
+```
+## Add elevation to gpx file
+Snippet to append or update SRTM elevation to waypoints, routes and tracks of a gpx file.<br>
+The snippet reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation.
+
+(Grouse Grind is a popular hiking trail in Vancouver, Canada)
+```
+$Python3 gpx-add-elevation.py grouse-grind > grouse-grind-with-elevation.gpx
 ```
 ### Find the elevation of a single location:
 ```
