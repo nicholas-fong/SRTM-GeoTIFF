@@ -47,13 +47,13 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 ```
 Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
 
-### Add elelvation to GeoJSON file
+### Adding elelvation to GeoJSON file
 Reads a geojson file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to GeoJSON Point, LineString and Polygon geometry.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $python3 geo2elev.py grouse-grind
 ```
-### Add elevation to gpx file
+### Adding elevation to gpx file
 Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
