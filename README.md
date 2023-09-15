@@ -11,7 +11,8 @@ Snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotran
 
 The more challenging task is perhaps to find out which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I use `GeoTIFF` tiles because the [file naming convention](/library/whichtile.py) (with small additional regex manipulations) is very similar to the original SRTM .hgt files. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is necessary to parse given latitude and longitude to select the correct filename.
 
-Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:
+Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:<br>
+ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry.
 
 [USGS EarthExplorer](https://earthexplorer.usgs.gov/). Here is a [primer](/EarthExplorer.md) on how to download GeoTIFF from USGS EarthExplorer.
 
