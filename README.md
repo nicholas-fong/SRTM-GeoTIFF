@@ -46,11 +46,10 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 ```
 Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
 
-## Add SRTM data using GeoTIFF
-A snippet to append or update SRTM elevation to waypoints, routes and tracks of a gpx file.
+## Add elevation to gpx file
+A snippet to append or update SRTM elevation to waypoints, routes and tracks of a gpx file.<br>
 The snippet reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation.
 
-### Add elevation to gpx file
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $Python3 gpx-add-elevation.py grouse-grind > grouse-grind-with-elevation.gpx
