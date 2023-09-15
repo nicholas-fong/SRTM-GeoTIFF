@@ -23,11 +23,11 @@ Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:
 
 For NASA and USGS (2-pixel overlapping tiles):
 
-whichtile.py
+$python3 whichtile.py
 
 ### Snippet to determine which GeoTIFF tile to use:
 
-(superseded by whichtile.py)<br>For NASA and USGS (1-pixel overlapping tiles):
+(superseded by whichtile.py above)<br>For NASA and USGS (1-pixel overlapping tiles):
 ```
 >>> import tilename
 >>> tilename.find( 49.6, -122.1 )
@@ -47,15 +47,13 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
 
 ### Add elelvation to GeoJSON file
-Reads a geojson file and update or add elevation to Point, LineString and Polygon.
+Reads a geojson file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to GeoJSON Point, LineString and Polygon geometry.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $python3 geo2elev.py grouse-grind
 ```
 ### Add elevation to gpx file
-Snippet to append or update SRTM elevation to waypoints, routes and tracks of a gpx file.<br>
-The snippet reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation.
-
+Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $Python3 gpx-add-elevation.py grouse-grind > grouse-grind-with-elevation.gpx
