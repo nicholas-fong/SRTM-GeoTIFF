@@ -46,7 +46,7 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 ```
 Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
 
-### Add elelvation to GeoJSON file
+## Add elelvation to GeoJSON file
 Reads a geojson file and update or add elevation to Point, LineString and Polygon.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
