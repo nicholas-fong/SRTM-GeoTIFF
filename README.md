@@ -27,8 +27,7 @@ whichtile.py
 
 ### Determine which GeoTIFF tile to use:
 
-(superseded by whichtile.py)
-For NASA and USGS (1-pixel overlapping tiles):
+(superseded by whichtile.py)<br>For NASA and USGS (1-pixel overlapping tiles):
 ```
 >>> import tilename
 >>> tilename.find( 49.6, -122.1 )
