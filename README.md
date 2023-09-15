@@ -22,6 +22,7 @@ Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:
 ### Interactive snippet to determine which tile(s) to use:
 
 For NASA and USGS (2-pixel overlapping tiles):
+
 whichtile.py
 
 ### Determine which GeoTIFF tile to use:
