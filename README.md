@@ -58,12 +58,14 @@ Subtle difference, but critical to avoid index out of range errors when latitude
 Reads a geojson file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to GeoJSON Point, LineString and Polygon geometry.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
+$sudo apt install gdal-bin
 $python3 geo2elev.py grouse-grind
 ```
 ### Adding elevation to gpx file
 Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
+$sudo apt install gdal-bin
 $Python3 gpx-add-elevation.py grouse-grind
 ```
 ### manually find the elevation of a single geolocation:
