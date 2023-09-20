@@ -5,35 +5,37 @@ Python snippets to read elevation data from raster-based SRTM files (GeoTIFF) fr
 
 File types supported by this snippet: Public Domain- `GeoTIFF`, Military- `DTED`, ESRI- `BIL` and legacy- `HGT`
 
-Data type supported by this snippet: raster files with few restrictions on pixel dimensions or aspect ratios. It can handle file types like: NASA/JSS ASTER GDEM 3601x3601. ALOS AW3D30 3600x3600. USGS 3601x3601, 1801x3601, 1201x1201 and 601x1201.
+Data type supported by this snippet: raster files with few restrictions on pixel dimensions or aspect ratios. It can handle these file structures: NASA/JSS ASTER GDEM 3601x3601. ALOS AW3D30 3600x3600. USGS 3601x3601, 1801x3601, 1201x1201 and 601x1201.
 
-Snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotransforms_tut.html) (Affine Transformation) to translate the given latitude, longitude into pixel indices. It also handles LZW compressed rasters automagically.
+Snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotransforms_tut.html) (Affine Transformation) to translate the given longitude latitude into pixel indices inside the GeoTIFF raster layer. It also handles LZW compressed rasters automagically.
 
-The more challenging task is perhaps to find out which tile/filename to use for a particular lat/lon location, especially when each data source uses their own file naming convention. For personal hobby use, I use `GeoTIFF` tiles because the [file naming convention](/library/whichtile.py) (with small additional regex manipulations) is very similar to the original SRTM .hgt files. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is necessary to parse given latitude and longitude to select the correct filename.
+The more time consuming task is to find out which SRTM/GeoTIFF tile to use for a particular lat/lon location. Each data source provider uses a different file naming convention. For personal hobby use, I use `GeoTIFF` tiles because the [file naming convention](/library/whichtile.py) (with small additional regex manipulations on filenames) is similar to the original SRTM .hgt files. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is necessary to parse a given lat/lon to select the correct filename.
 
-Sources of ASTER GDEM (Global Digital Elevation Model) in GeoTIFF format are:<br>
-ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry.
+Here are some providers of ASTER GDEM in GeoTIFF tiles:<br>
+(ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry)<br>
+(GDEM = Global Digital Elevation Model)
 
 [NASA's Earth Data](https://search.earthdata.nasa.gov/search/) 
 
-[USGS EarthExplorer](https://earthexplorer.usgs.gov/). Here is a [primer](/EarthExplorer.md) on how to download GeoTIFF from USGS EarthExplorer.
+[USGS EarthExplorer](https://earthexplorer.usgs.gov/).<br>
+[primer](/EarthExplorer.md) on how to download GeoTIFF from USGS EarthExplorer.
 
 [Japan Space Systems ASTER GDEM](https://gdemdl.aster.jspacesystems.or.jp/index_en.html).
 
-### Snippet to determine which GeoTIFF tile(s) to use:
+### Snippet to determine which GeoTIFF tile(s) to download/use:
 
-For NASA and USGS (1-pixel overlapping tiles):
+For NASA, JSS and USGS (1-pixel overlapping tiles):
 ```
 $python3 whichtile.py
 ```
 
 For ALOS (non-overlapping tiles):<br>
-In words, if the latitude is exactly an integer, then use 1 tile further south compared to NASA's/USGS's counterpart.
+In words, if the latitude is exactly an integer, then use 1 tile further south compared to NASA/USGS counterpart.
 ```
 $python3 whichalos.py
 ```
 
-### older snippet to determine which GeoTIFF tile to use:
+### some older snippet to determine which GeoTIFF tile to use:
 
 For NASA and USGS (1-pixel overlapping tiles):
 ```
@@ -52,10 +54,10 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 >>> tile_alos.find ( 49.0, -122.1 )
 >>> 'N48W123.tif'
 ```
-Subtle difference, but critical to avoid index out of range errors when latitude is an integer.
+Subtle difference, but critical to avoid index out of range errors if latitude is an integer.
 
 ### Adding elelvation to GeoJSON file
-Reads a geojson file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to GeoJSON Point, LineString and Polygon geometry.
+Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry.
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $sudo apt install gdal-bin
