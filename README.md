@@ -35,7 +35,7 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 $python3 whichalos.py
 ```
 
-### some older snippet to determine which GeoTIFF tile to use:
+### Some older snippet to determine which GeoTIFF tile to use:
 
 For NASA and USGS (1-pixel overlapping tiles):
 ```
@@ -70,7 +70,7 @@ Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), rea
 $sudo apt install gdal-bin
 $Python3 gpx-add-elevation.py grouse-grind
 ```
-### manually find the elevation of a single geolocation:
+### Manually find the elevation of a single geolocation:
 
 Using Python 3.10.6 and GDAL 3.4.3; 
 Windows Subsystem Linux (Ubuntu 22.04)
