@@ -1,10 +1,15 @@
-from osgeo import gdal  # osgeo gdal only works in Ubuntu
+# add elevation data to GeoJSON
+# all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
+# this code only works in Ubuntu or WSL beause it is nearly impossible to insall GDAL on Windows.
+# sudo apt install gdal-bin
+
+from osgeo import gdal
 import sys
 import math
 from statistics import mean
 import geojson
 import json
-from geojson import FeatureCollection, Feature, Point, LineString
+from geojson import FeatureCollection, Feature, Point, LineString, Polygon
 
 def find_tiff ( latitude, longitude ):
     if  ( latitude >= 0.0 and longitude >= 0.0 ):
@@ -25,7 +30,7 @@ def find_tiff ( latitude, longitude ):
         t2 = f"{math.floor(longitude):03d}"
     return( f"{hemi}{t1}{meri}{t2}.tif" ) 
 
-def read_tiff (tiff_file, lat, lon):
+def extract (tiff_file, lat, lon):
     data = gdal.Open(tiff_file) 
     band1 = data.GetRasterBand(1)
     GT = data.GetGeoTransform()
@@ -51,66 +56,73 @@ def read_tiff (tiff_file, lat, lon):
 # Rectangular rasters supported
 # GeoTIFF with LZW compression supported
 
-if len(sys.argv) < 2:
-    print("Please enter a geojson file to add elevation ")
-    sys.exit(1)
+def main():
 
-basket = []       
-data = geojson.load(open( sys.argv[1] + '.geojson'))
+    if len(sys.argv) < 2:
+        print("Please enter a geojson file to add elevation ")
+        sys.exit(1)
 
-for i in range(len(data['features'])):
-    try:
-        myname = data['features'][i]['properties']['name']
-    except:
+    with open( sys.argv[1]+'.geojson', 'r') as infile:
+        data = geojson.load ( infile )
+    infile.close()
+
+    basket = []   
+
+    for i in range(len(data['features'])):
         try:
-            myname = data['features'][i]['properties']['Name']
+            myname = data['features'][i]['properties']['name']
         except:
-            myname = 'noname'
+            try:
+                myname = data['features'][i]['properties']['Name']
+            except:
+                myname = 'noname'
 
-    geom = data['features'][i]['geometry']
-    xyz = geom['coordinates'] 
-    xyz_tricky = geom['coordinates'][0] #tricky: first element of list of list is also a list
+        geom = data['features'][i]['geometry']
+        xyz = geom['coordinates'] 
 
-    if geom['type'] == 'Point':
-        longitude = xyz[0]
-        latitude = xyz[1]
-        tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
-        elev = read_tiff (tiff_name, latitude, longitude)
-        my_point = Point((longitude, latitude, elev))
-        my_feature = Feature(geometry=my_point, properties={"name":myname})
-        basket.append(my_feature)
-
-    elif ( geom['type'] == 'Polygon' ):  # if Polygon, calculate centroid and treat it as a Point
-        node = geom['coordinates'][0]  # Polygon: first element of a list of lists is the list of coordinates
-        bucket1=[]
-        bucket2=[]
-        for j in range(len(node)-1):  # skip the duplicated last node, which is the same as first node.
-            bucket1.append( node[j][1] )
-            bucket2.append( node[j][0] )
-        latitude = mean(bucket1)
-        longitude = mean(bucket2)
-        label = myname
-        tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
-        elev = read_tiff (tiff_name, latitude, longitude)
-        my_point = Point((longitude, latitude, elev))
-        my_feature = Feature(geometry=my_point, properties={"name":'Ploygon Centroid'})
-        basket.append(my_feature)
-
-    elif geom['type'] == 'LineString':
-        coords = xyz  # list of tuples
-        str_list = []
-        for j in coords:
-            longitude = j[0]
-            latitude = j[1]
+        if geom['type'] == 'Point':
+            longitude = xyz[0]
+            latitude = xyz[1]
             tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
-            elev = read_tiff (tiff_name, latitude, longitude)
-            str_list.append([longitude, latitude, elev])
-        my_line = LineString(str_list)
-        my_feature = Feature(geometry=my_line, properties={"name":myname})
-        basket.append(my_feature)   
+            elev = extract (tiff_name, latitude, longitude)
+            my_point = Point((longitude, latitude, elev))
+            my_feature = Feature(geometry=my_point, properties={"name":myname})
+            basket.append(my_feature)
 
-geojson_string = json.dumps(FeatureCollection(basket), indent=2, ensure_ascii=False)
-#print(geojson_string)
+        elif geom['type'] == 'LineString':
+            coords = xyz  # list of tuples
+            str_list = []
+            for j in coords:
+                longitude = j[0]
+                latitude = j[1]
+                tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
+                elev = extract (tiff_name, latitude, longitude)
+                str_list.append([longitude, latitude, elev])
+            my_line = LineString(str_list)
+            my_feature = Feature(geometry=my_line, properties={"name":myname})
+            basket.append(my_feature)  
 
-with open(sys.argv[1]  + '.geojson', 'w') as outfile:
-    outfile.write( geojson_string )
+        elif ( geom['type'] == 'Polygon' ):
+            # if Polygon has no elevation, then no elevation will be added.
+            # if Polygon has elevation, then elevation based on GeoTIFF will be substituted.
+            # for Polygon: first element of a list of lists is = list of Polygon's outer ring coordinates
+            node = geom['coordinates'][0]   
+            for j in range(len(node)):
+                latitude = node[j][1]
+                longitude = node[j][0]
+                tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
+                try:
+                    node[j][2] = extract (tiff_name, latitude, longitude)
+                except:
+                    pass    
+            my_feature = Feature(geometry=Polygon([node]), properties={"name":myname})
+            basket.append(my_feature)
+
+    geojson_string = json.dumps(FeatureCollection(basket), indent=2, ensure_ascii=False)
+    #print(geojson_string)
+
+    with open(sys.argv[1]  + '.geojson', 'w') as outfile:
+        outfile.write( geojson_string )
+
+if __name__ == "__main__":
+    main()    
