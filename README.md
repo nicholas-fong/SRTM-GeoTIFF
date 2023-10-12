@@ -35,6 +35,38 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 $python3 whichalos.py
 ```
 
+After assembling the necessary tiles in a local folder, you can add elevation points to GeoJSON, KML and gpx files.
+
+### Adding elelvation to GeoJSON or KML file
+Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry. Similary for KML, add elevation to Point, LineString and Polygon outer ring.
+(Grouse Grind is a popular hiking trail in Vancouver, Canada)
+```
+$sudo apt install gdal-bin
+$python3 geo2elev.py grouse-grind
+$python3 kml2elev.py grouse-grind
+```
+### Adding elevation to gpx file
+Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
+```
+$sudo apt install gdal-bin
+$Python3 gpx-add-elevation.py grouse-grind
+```
+### Manually find the elevation of a single geolocation:
+
+Using Python 3.10.6 and GDAL 3.4.3; 
+Windows Subsystem Linux (Ubuntu 22.04)
+```
+>>>import srtm1
+>>>srtm1.read( './N46E008.tif', 46.854539, 8.49701)
+2691 (Lucern, Switzerland)
+>>>srtm1.read( './N49W123.tif', 49.68437, -122.14162 )
+618  (British Columbia, Canada)
+>>>srtm1.read( './S33W071.tif', -32.653197, -70.0112 )
+6926 (Aconcagua, Argentina)
+>>>srtm1.read( './S36E149.tif', -35.2745, 149.09752 )
+801  (Canberra, Australia)
+```
+
 ### Some older snippet to determine which GeoTIFF tile to use:
 
 For NASA and USGS (1-pixel overlapping tiles):
@@ -55,33 +87,3 @@ In words, if the latitude is exactly an integer, then use 1 tile further south c
 >>> 'N48W123.tif'
 ```
 Subtle difference, but critical to avoid index out of range errors if latitude is an integer.
-
-### Adding elelvation to GeoJSON file
-Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry.
-(Grouse Grind is a popular hiking trail in Vancouver, Canada)
-```
-$sudo apt install gdal-bin
-$python3 geo2elev.py grouse-grind
-```
-### Adding elevation to gpx file
-Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
-(Grouse Grind is a popular hiking trail in Vancouver, Canada)
-```
-$sudo apt install gdal-bin
-$Python3 gpx-add-elevation.py grouse-grind
-```
-### Manually find the elevation of a single geolocation:
-
-Using Python 3.10.6 and GDAL 3.4.3; 
-Windows Subsystem Linux (Ubuntu 22.04)
-```
->>>import srtm1
->>>srtm1.read( './N46E008.tif', 46.854539, 8.49701)
-2691 (Lucern, Switzerland)
->>>srtm1.read( './N49W123.tif', 49.68437, -122.14162 )
-618  (British Columbia, Canada)
->>>srtm1.read( './S33W071.tif', -32.653197, -70.0112 )
-6926 (Aconcagua, Argentina)
->>>srtm1.read( './S36E149.tif', -35.2745, 149.09752 )
-801  (Canberra, Australia)
-```
