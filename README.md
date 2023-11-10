@@ -15,7 +15,7 @@ Here are some providers of ASTER GDEM in GeoTIFF tiles:<br>
 (ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry)<br>
 (GDEM = Global Digital Elevation Model)
 
-[NASA's Earth Data](https://search.earthdata.nasa.gov/search/) 
+[NASA's Earth Data](https://search.earthdata.nasa.gov/search/) Filters: Instrument=ASTER; Data Format=Cloud Optimized GeoTIFF
 
 [USGS EarthExplorer](https://earthexplorer.usgs.gov/).<br>
 [primer](/EarthExplorer.md) on how to download GeoTIFF from USGS EarthExplorer.
