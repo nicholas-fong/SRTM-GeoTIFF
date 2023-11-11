@@ -49,7 +49,7 @@ $python3 kml2elev.py grouse-grind
 Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
 ```
 $sudo apt install gdal-bin
-$Python3 gpx-add-elevation.py grouse-grind
+$Python3 gpx2elev.py grouse-grind
 ```
 ### Manually find the elevation of a single geolocation:
 
