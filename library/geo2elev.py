@@ -6,8 +6,6 @@
 from osgeo import gdal
 import sys
 import math
-from statistics import mean
-import geojson
 import json
 from geojson import FeatureCollection, Feature, Point, LineString, Polygon
 
@@ -56,73 +54,63 @@ def extract (tiff_file, lat, lon):
 # Rectangular rasters supported
 # GeoTIFF with LZW compression supported
 
-def main():
+with open( sys.argv[1]+'.geojson', 'r') as infile:
+    data = json.load ( infile )
 
-    if len(sys.argv) < 2:
-        print("Please enter a geojson file to add elevation ")
-        sys.exit(1)
+features = []   
 
-    with open( sys.argv[1]+'.geojson', 'r') as infile:
-        data = geojson.load ( infile )
-    infile.close()
-
-    basket = []   
-
-    for i in range(len(data['features'])):
+for i in range(len(data['features'])):
+    try:
+        myname = data['features'][i]['properties']['name']
+    except:
         try:
-            myname = data['features'][i]['properties']['name']
+            myname = data['features'][i]['properties']['Name']
         except:
-            try:
-                myname = data['features'][i]['properties']['Name']
-            except:
-                myname = 'noname'
+            myname = 'noname'
 
-        geom = data['features'][i]['geometry']
-        xyz = geom['coordinates'] 
+    geom = data['features'][i]['geometry']
+    xyz = geom['coordinates'] 
 
-        if geom['type'] == 'Point':
-            longitude = xyz[0]
-            latitude = xyz[1]
+    if geom['type'] == 'Point':
+        longitude = xyz[0]
+        latitude = xyz[1]
+        tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
+        elev = extract (tiff_name, latitude, longitude)
+        my_point = Point((longitude, latitude, elev))
+        my_feature = Feature(geometry=my_point, properties={"name":myname})
+        features.append(my_feature)
+
+    elif geom['type'] == 'LineString':
+        coords = xyz  # list of tuples
+        str_list = []
+        for j in coords:
+            longitude = j[0]
+            latitude = j[1]
             tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
             elev = extract (tiff_name, latitude, longitude)
-            my_point = Point((longitude, latitude, elev))
-            my_feature = Feature(geometry=my_point, properties={"name":myname})
-            basket.append(my_feature)
+            str_list.append([longitude, latitude, elev])
+        my_line = LineString(str_list)
+        my_feature = Feature(geometry=my_line, properties={"name":myname})
+        features.append(my_feature)  
 
-        elif geom['type'] == 'LineString':
-            coords = xyz  # list of tuples
-            str_list = []
-            for j in coords:
-                longitude = j[0]
-                latitude = j[1]
-                tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
-                elev = extract (tiff_name, latitude, longitude)
-                str_list.append([longitude, latitude, elev])
-            my_line = LineString(str_list)
-            my_feature = Feature(geometry=my_line, properties={"name":myname})
-            basket.append(my_feature)  
+    elif geom['type'] == 'Polygon':
+        # if Polygon has no elevation, then no elevation will be added.
+        # if Polygon has elevation, then elevation based on GeoTIFF will be substituted.
+        # Polygon: first element of a list of lists is the list of Polygon outer ring coordinates
+        node = geom['coordinates'][0]   
+        for j in range(len(node)):
+            latitude = node[j][1]
+            longitude = node[j][0]
+            tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
+            try:
+                node[j][2] = extract (tiff_name, latitude, longitude)
+            except:
+                pass    
+        my_feature = Feature(geometry=Polygon([node]), properties={"name":myname})
+        features.append(my_feature)
 
-        elif ( geom['type'] == 'Polygon' ):
-            # if Polygon has no elevation, then no elevation will be added.
-            # if Polygon has elevation, then elevation based on GeoTIFF will be substituted.
-            # for Polygon: first element of a list of lists is = list of Polygon's outer ring coordinates
-            node = geom['coordinates'][0]   
-            for j in range(len(node)):
-                latitude = node[j][1]
-                longitude = node[j][0]
-                tiff_name = '../geotiff/' + find_tiff ( latitude, longitude )
-                try:
-                    node[j][2] = extract (tiff_name, latitude, longitude)
-                except:
-                    pass    
-            my_feature = Feature(geometry=Polygon([node]), properties={"name":myname})
-            basket.append(my_feature)
+new_string = json.dumps(FeatureCollection(features), indent=2, ensure_ascii=False)
+#print(new_string)
 
-    geojson_string = json.dumps(FeatureCollection(basket), indent=2, ensure_ascii=False)
-    #print(geojson_string)
-
-    with open(sys.argv[1]  + '.geojson', 'w') as outfile:
-        outfile.write( geojson_string )
-
-if __name__ == "__main__":
-    main()    
+with open(sys.argv[1]  + '.geojson', 'w') as outfile:
+    outfile.write( new_string )
