@@ -41,35 +41,31 @@ def extract (tiff_file, lat, lon):
             
 # read a gpx file and append elevation tags to waypoints, route points and track points
 
-def main():
+with open( sys.argv[1]+'.gpx', 'r') as infile:
+    gpx = gpxpy.parse(infile)
+infile.close()
 
-    with open( sys.argv[1]+'.gpx', 'r') as infile:
-        gpx = gpxpy.parse(infile)
-    infile.close()
+for p in gpx.waypoints:
+    tiff_file=find(p.latitude, p.longitude)
+    z = extract (tiff_file,p.latitude,p.longitude)
+    p.elevation = z
 
-    for p in gpx.waypoints:
+for routes in gpx.routes:
+    for p in routes.points:
         tiff_file=find(p.latitude, p.longitude)
         z = extract (tiff_file,p.latitude,p.longitude)
         p.elevation = z
 
-    for routes in gpx.routes:
-        for p in routes.points:
+for track in gpx.tracks: 
+    for segment in track.segments:
+        for p in segment.points:
             tiff_file=find(p.latitude, p.longitude)
             z = extract (tiff_file,p.latitude,p.longitude)
             p.elevation = z
 
-    for track in gpx.tracks: 
-        for segment in track.segments:
-            for p in segment.points:
-                tiff_file=find(p.latitude, p.longitude)
-                z = extract (tiff_file,p.latitude,p.longitude)
-                p.elevation = z
-
-    #print (gpx.to_xml())
-    with open(sys.argv[1]+'.gpx', 'w') as file:
-        file.write( gpx.to_xml() )
-
-if __name__ == "__main__":
-    main()
+#print (gpx.to_xml())
+with open(sys.argv[1]+'.gpx', 'w') as file:
+    file.write( gpx.to_xml() )
+file.close()
 
     
