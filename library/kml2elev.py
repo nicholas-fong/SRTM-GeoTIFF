@@ -1,10 +1,10 @@
-# Parse Google KML and add elevation extracted from GeoTIFF tiles (NASA or USGS)
-# only works on linux system because it is nearly impossible to install gdal/osgeo on Windows system
+# Parse Google KML and add elevation data extracted from GeoTIFF tiles (NASA or USGS)
+
 import xml.etree.ElementTree as ET
 import sys
-import simplekml
 import math
-from osgeo import gdal   # sudo apt install gdal-bin
+import simplekml
+from osgeo import gdal   #sudo apt install gdal-bin / Windows: install miniconda environment.
 
 #main() is here
 kml = simplekml.Kml()
@@ -35,6 +35,7 @@ def find_tile ( latitude, longitude ):
     return( f"../geotiff/{hemi}{t1}{meri}{t2}.tif" ) 
 
 def extract_altitude (tiff_file, lat, lon):
+    gdal.UseExceptions()
     data = gdal.Open(tiff_file)
     band1 = data.GetRasterBand(1)
     GT = data.GetGeoTransform()
@@ -44,7 +45,11 @@ def extract_altitude (tiff_file, lat, lon):
     y_pixel_size = GT[5]
     xP = int((lon - GT[0]) / x_pixel_size )
     yL = int((lat - GT[3]) / y_pixel_size )
-    return ( int( band1.ReadAsArray(xP,yL,1,1) ) )
+    # without rotation, GT[2] and GT[4] are zero
+    array_result = band1.ReadAsArray(xP, yL, 1, 1)
+    single_element = array_result[0, 0]  # Extract a single element
+    integer_value = int(single_element)  # Convert to an integer
+    return (integer_value)
 
 def add_elevation(geometry_element):
     coordinates_elem = geometry_element.find('kml:coordinates', namespaces=kml_namespace)
