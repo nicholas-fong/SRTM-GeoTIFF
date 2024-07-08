@@ -1,7 +1,6 @@
 # append elevation data to gpx waypoints, route points and track points.
 # GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
-# this code only works in Ubuntu or WSL beause it is nearly impossible to insall GDAL on Windows.
-# sudo apt install gdal-bin
+# Linux: sudo apt install gdal-bin   Windows: install miniconda environment.
 
 import sys
 import gpxpy
@@ -28,16 +27,23 @@ def find ( latitude, longitude ):
     return( f"../geotiff/{hemi}{t1}{meri}{t2}.tif" ) 
 
 def extract (tiff_file, lat, lon):
-    data = gdal.Open(tiff_file)
+    gdal.UseExceptions()
+    data = gdal.Open(tiff_file) 
     band1 = data.GetRasterBand(1)
     GT = data.GetGeoTransform()
-    # call gdal's Affine Transformation (GetGeoTransform method)
+    # GDAL's Affine Transformation (GetGeoTransform) 
+    # https://gdal.org/tutorials/geotransforms_tut.html
     # GetGeoTransform translates latitude, longitude to pixel indices
-    x_pixel_size = GT[1]
-    y_pixel_size = GT[5]
+    # GT[0] and GT[3] define the "origin": upper left pixel 
+    x_pixel_size = GT[1]    #horizontal pixel size
+    y_pixel_size = GT[5]    #vertical pixel size
     xP = int((lon - GT[0]) / x_pixel_size )
     yL = int((lat - GT[3]) / y_pixel_size )
-    return ( int( band1.ReadAsArray(xP,yL,1,1) ) )
+    # without rotation, GT[2] and GT[4] are zero
+    array_result = band1.ReadAsArray(xP, yL, 1, 1)
+    single_element = array_result[0, 0]  # Extract a single element
+    integer_value = int(single_element)  # Convert to an integer
+    return (integer_value)
             
 # read a gpx file and append elevation tags to waypoints, route points and track points
 

@@ -1,7 +1,8 @@
 # add elevation data to GeoJSON
 # all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
-# this code only works in Ubuntu or WSL beause it is nearly impossible to insall GDAL on Windows.
-# sudo apt install gdal-bin
+# Linux: sudo apt install gdal-bin   Windows: install miniconda environment.
+# caution: this code at this time only works with files with Points, LineString and Polygon.
+# it will not work with files with MultiPoint, MultiLineString and MultiPolygon
 
 from osgeo import gdal
 import sys
@@ -29,6 +30,7 @@ def find_tiff ( latitude, longitude ):
     return( f"{hemi}{t1}{meri}{t2}.tif" ) 
 
 def extract (tiff_file, lat, lon):
+    gdal.UseExceptions()
     data = gdal.Open(tiff_file) 
     band1 = data.GetRasterBand(1)
     GT = data.GetGeoTransform()
@@ -41,7 +43,11 @@ def extract (tiff_file, lat, lon):
     xP = int((lon - GT[0]) / x_pixel_size )
     yL = int((lat - GT[3]) / y_pixel_size )
     # without rotation, GT[2] and GT[4] are zero
-    return ( int ( band1.ReadAsArray(xP,yL,1,1) ) )
+    array_result = band1.ReadAsArray(xP, yL, 1, 1)
+    single_element = array_result[0, 0]  # Extract a single element
+    integer_value = int(single_element)  # Convert to an integer
+    return (integer_value)
+
 
 # Determine file name of GeoTIFF file based on latitude longitude
 # For square tiles with 1 pixel overlap. Not for square tiles with non-overlapping pixels.
@@ -69,7 +75,7 @@ for i in range(len(data['features'])):
             myname = 'noname'
 
     geom = data['features'][i]['geometry']
-    xyz = geom['coordinates'] 
+    xyz = data['features'][i]['geometry']['coordinates']
 
     if geom['type'] == 'Point':
         longitude = xyz[0]
