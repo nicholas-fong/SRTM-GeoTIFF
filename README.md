@@ -11,7 +11,7 @@ Snippet makes use of GDAL's [GetGeoTransform](https://gdal.org/tutorials/geotran
 
 The more time consuming task is to find out which SRTM/GeoTIFF tile to use for a particular lat/lon location. Each data source provider uses a different file naming convention. For personal hobby use, I use `GeoTIFF` tiles because the [file naming convention](/library/whichtile.py) (with small additional regex manipulations on filenames) is similar to the original SRTM .hgt files. For ALOS's 3600x3600 non-overlapping tiles, a modified algorithm [tile_alos.py](/library/tile_alos.py) is necessary to parse a given lat/lon to select the correct filename.
 
-Here are some providers of ASTER GDEM in GeoTIFF tiles:<br>
+Below are some providers of ASTER GDEM in GeoTIFF tiles:<br>
 (ASTER = Advanced Spaceborne Thermal Emission and Reflection Radiometry)<br>
 (GDEM = Global Digital Elevation Model)
 
@@ -37,20 +37,24 @@ $python3 whichalos.py
 
 After assembling the necessary tiles in a local folder, you can add elevation points to GeoJSON, KML and gpx files.
 
-### Adding elelvation to GeoJSON or KML file
-Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry. Similary for KML, add elevation to Point, LineString and Polygon outer ring.
-(Grouse Grind is a popular hiking trail in Vancouver, Canada)
-```
-$sudo apt install gdal-bin
-$python3 geo2elev.py grouse-grind
-$python3 kml2elev.py grouse-grind
-```
 ### Adding elevation to gpx file
 Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
 ```
 $sudo apt install gdal-bin
 $Python3 gpx2elev.py grouse-grind
 ```
+
+### Adding elelvation to GeoJSON or KML file
+Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry. <br>
+Similary for KML, add elevation to Point, LineString and Polygon outer ring.<br>
+Note that GeoJSON MultiPoint, etc and KML Multigeometry are not supported by geo2elev.py and kml2elev.py<br>
+(Grouse Grind is a popular hiking trail in Vancouver, Canada)
+```
+$sudo apt install gdal-bin
+$python3 geo2elev.py grouse-grind
+$python3 kml2elev.py grouse-grind
+```
+
 ### Manually find the elevation of a single geolocation:
 
 Using Python 3.10.6 and GDAL 3.4.3; 
