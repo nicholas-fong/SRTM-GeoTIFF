@@ -45,10 +45,10 @@ $Python3 gpx2elev.py grouse-grind
 ```
 
 ### Adding elevation to GeoJSON file
-Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and extracts the elevation, adds elevation to Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and Multigeometry.
+Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and extracts the elevation, updates or adds elevation to Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and Multigeometry.
 
 ### Adding elevation to KML file
-Reads a KML file and determines which GeoTIFF tiles to read (on local drive), reads it and extracts the elevation, adds elevation to Point, LineString, Polygon and MultiGeometry. <br>
+Reads a KML file and determines which GeoTIFF tiles to read (on local drive), reads it and extracts the elevation, updates or adds elevation to Point, LineString, Polygon and MultiGeometry. <br>
 
 Example: Grouse Grind is a popular hiking trail in Vancouver, Canada
 ```
