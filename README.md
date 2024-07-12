@@ -37,18 +37,18 @@ $python3 whichalos.py
 
 After assembling the necessary tiles in a local folder, you can add elevation points to GeoJSON, KML and gpx files.
 
-### Adding elevation to gpx file
-Reads a gpx file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to gpx waypoints, routes and tracks.
+### Adding elevation to GPX file
+Reads a GPX file and determines which GeoTIFF tiles to use (on local drive), reads it and finds the elevation, updates or adds elevation to GPX waypoints, routes and tracks.
 ```
 $sudo apt install gdal-bin
 $Python3 gpx2elev.py grouse-grind
 ```
 
 ### Adding elelvation to GeoJSON file
-Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+Reads a GeoJSON file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
 
 ### Adding elevation to KML file
-Reads a KML file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, add elevation to Point, LineString, Polygon and MultiGeometry. <br>
+Reads a KML file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, add elevation to Point, LineString, Polygon with LinearRing and MultiGeometry. <br>
 
 Example: Grouse Grind is a popular hiking trail in Vancouver, Canada
 ```
