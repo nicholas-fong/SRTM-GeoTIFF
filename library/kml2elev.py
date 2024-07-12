@@ -1,99 +1,122 @@
-# Parse Google KML and add elevation data extracted from GeoTIFF tiles (NASA or USGS)
-
 import xml.etree.ElementTree as ET
 import sys
 import math
-import simplekml
-from osgeo import gdal   #sudo apt install gdal-bin / Windows: install miniconda environment.
+from osgeo import gdal
 
-#main() is here
-kml = simplekml.Kml()
+# Function to strip namespaces
+def strip_ns_prefix(elem):
+    for subelem in elem.iter():
+        subelem.tag = subelem.tag.split('}', 1)[1] if '}' in subelem.tag else subelem.tag
+    return elem
+
 # Open the KML file
-with open(sys.argv[1]+".kml") as infile:
+with open(sys.argv[1] + ".kml") as infile:
     tree = ET.parse(infile)
 root = tree.getroot()
+
+# Strip namespaces from the tags
+root = strip_ns_prefix(root)
+
 # Define namespaces (KML uses namespaces)
 kml_namespace = {'kml': 'http://www.opengis.net/kml/2.2'}
 
-def find_tile ( latitude, longitude ):
-    if  ( latitude >= 0.0 and longitude >= 0.0 ):
+def find_tile(latitude, longitude):
+    if latitude >= 0.0 and longitude >= 0.0:
         hemi, meri = "N", "E"
         t1 = f"{math.floor(latitude):02d}"
         t2 = f"{math.floor(longitude):03d}"
-    elif ( latitude >= 0.0 and longitude < 0.0 ):
+    elif latitude >= 0.0 and longitude < 0.0:
         hemi, meri = "N", "W"
         t1 = f"{math.floor(latitude):02d}"
         t2 = f"{math.ceil(abs(longitude)):03d}"
-    elif ( latitude < 0.0 and longitude < 0.0 ):
+    elif latitude < 0.0 and longitude < 0.0:
         hemi, meri = "S", "W"
         t1 = f"{math.ceil(abs(latitude)):02d}"
         t2 = f"{math.ceil(abs(longitude)):03d}"
-    elif ( latitude < 0.0 and longitude >= 0.0 ):
+    elif latitude < 0.0 and longitude >= 0.0:
         hemi, meri = "S", "E"
         t1 = f"{math.ceil(abs(latitude)):02d}"
         t2 = f"{math.floor(longitude):03d}"
-    return( f"../geotiff/{hemi}{t1}{meri}{t2}.tif" ) 
+    return f"../geotiff/{hemi}{t1}{meri}{t2}.tif"
 
-def extract_altitude (tiff_file, lat, lon):
+def extract_altitude(tiff_file, lat, lon):
     gdal.UseExceptions()
-    data = gdal.Open(tiff_file)
-    band1 = data.GetRasterBand(1)
-    GT = data.GetGeoTransform()
-    # call gdal's Affine Transformation (GetGeoTransform method)
-    # GetGeoTransform translates latitude, longitude to pixel indices
-    x_pixel_size = GT[1]
-    y_pixel_size = GT[5]
-    xP = int((lon - GT[0]) / x_pixel_size )
-    yL = int((lat - GT[3]) / y_pixel_size )
-    # without rotation, GT[2] and GT[4] are zero
-    array_result = band1.ReadAsArray(xP, yL, 1, 1)
-    single_element = array_result[0, 0]  # Extract a single element
-    integer_value = int(single_element)  # Convert to an integer
-    return (integer_value)
+    try:
+        data = gdal.Open(tiff_file)
+        if data is None:
+            return 0
+        band1 = data.GetRasterBand(1)
+        GT = data.GetGeoTransform()
+        x_pixel_size = GT[1]
+        y_pixel_size = GT[5]
+        xP = int((lon - GT[0]) / x_pixel_size)
+        yL = int((lat - GT[3]) / y_pixel_size)
+        array_result = band1.ReadAsArray(xP, yL, 1, 1)
+        single_element = array_result[0, 0]
+        integer_value = int(single_element)
+        return integer_value
+    except Exception as e:
+        return 0
 
 def add_elevation(geometry_element):
-    coordinates_elem = geometry_element.find('kml:coordinates', namespaces=kml_namespace)
+    coordinates_elem = geometry_element.find('coordinates')
     if coordinates_elem is not None:
         coordinates = coordinates_elem.text.strip().split()
-        # coordinates is a long list of strings ['121,31','122,32']
         list_floats = [list(map(float, item.split(','))) for item in coordinates]
-        # list_floats is a long list of float [[121, 31],[122,32]]
         coord_with_elev = []
         for item in list_floats:
-            longitude=item[0]
-            latitude=item[1]
-            tiff_file=find_tile(latitude, longitude)
-            z = extract_altitude (tiff_file,latitude,longitude)
-            coord_with_elev.append([longitude,latitude,z])
-        return coord_with_elev
+            longitude = item[0]
+            latitude = item[1]
+            tiff_file = find_tile(latitude, longitude)
+            z = extract_altitude(tiff_file, latitude, longitude)
+            coord_with_elev.append([longitude, latitude, z])
+        coordinates_elem.text = ' '.join([','.join(map(str, coord)) for coord in coord_with_elev])
+
+def process_multigeometry(multigeometry):
+    for child in multigeometry:
+        if child.tag.endswith('Polygon'):
+            name_elem = child.find('name')
+            name = name_elem.text if name_elem is not None else 'Unnamed'
+            outer_ring = child.find('.//outerBoundaryIs/LinearRing')
+            add_elevation(outer_ring)
+            inner_rings = child.findall('.//innerBoundaryIs/LinearRing')
+            for inner_ring in inner_rings:
+                add_elevation(inner_ring)
+        elif child.tag.endswith('LineString'):
+            name_elem = child.find('name')
+            name = name_elem.text if name_elem is not None else 'Unnamed'
+            add_elevation(child)
+        elif child.tag.endswith('Point'):
+            name_elem = child.find('name')
+            name = name_elem.text if name_elem is not None else 'Unnamed'
+            add_elevation(child)
+
+def process_placemark(placemark):
+    # Print the entire structure of the placemark for debugging
+    # print(ET.tostring(placemark, encoding='unicode'))
+    
+    multigeometry = placemark.find('.//MultiGeometry')
+    if multigeometry is not None:
+        process_multigeometry(multigeometry)
+    else:
+        point = placemark.find('.//Point')
+        line_string = placemark.find('.//LineString')
+        polygon = placemark.find('.//Polygon')
+
+        if point is not None:
+            add_elevation(point)
+        elif line_string is not None:
+            add_elevation(line_string)
+        elif polygon is not None:
+            outer_ring = polygon.find('.//outerBoundaryIs/LinearRing')
+            add_elevation(outer_ring)
+            inner_rings = polygon.findall('.//innerBoundaryIs/LinearRing')
+            for inner_ring in inner_rings:
+                add_elevation(inner_ring)
 
 # Iterate through Placemark elements
-for placemark in root.findall('.//kml:Placemark', namespaces=kml_namespace):
-    name_elem = placemark.find('kml:name', namespaces=kml_namespace)
-    name = name_elem.text.strip() if name_elem is not None else 'Unnamed'
+for placemark in root.findall('.//Placemark'):
+    process_placemark(placemark)
 
-    # Check for Point, LineString, or Polygon geometry
-    point = placemark.find('.//kml:Point', namespaces=kml_namespace)
-    line_string = placemark.find('.//kml:LineString', namespaces=kml_namespace)
-    polygon = placemark.find('.//kml:Polygon', namespaces=kml_namespace)
-
-    if point is not None:
-        mypoint = kml.newpoint(name=name)
-        mypoint.coords = add_elevation(point)
-
-    elif line_string is not None:
-        myline = kml.newlinestring(name=name)
-        myline.coords = add_elevation(line_string)
-
-    elif polygon is not None:
-        mypol = kml.newpolygon(name=name)
-        outer_ring = polygon.find('.//kml:outerBoundaryIs/kml:LinearRing', namespaces=kml_namespace)
-        mypol.outerboundaryis = add_elevation(outer_ring) 
-        # slight setback: simplekml can store only one inner ring despite multiple inner rings exist.
-        #blocks = polygon.findall('.//kml:innerBoundaryIs/kml:LinearRing', namespaces=kml_namespace)
-        #for inner_ring in blocks:                
-        #    mypol.innerboundaryis = add_elevation(inner_ring)
-
-print(kml.kml())
-kml.save(sys.argv[1]+".kml")
-
+# Save the modified KML
+tree.write(sys.argv[1] + ".kml", encoding="utf-8", xml_declaration=True)
