@@ -66,11 +66,11 @@ def add_elevation_to_coords(coords):
         new_coords.append([longitude, latitude, elev])
     return new_coords
 
-def process_geometry(geom, name):
-    if geom['type'] == 'GeometryCollection':     #complex geometry, handle recursively
+def process_geometry(geom, name):               #recursive function to handle GeometryCollection object
+    if geom['type'] == 'GeometryCollection':    
         geometries = []
-        for g in geom['geometries']:              #GeometryCollection contains multiple geometries
-            geometries.append(process_geometry(g, name))
+        for g in geom['geometries']:             
+            geometries.append(process_geometry(g, name))   #recursive calls
         return GeometryCollection(geometries)
     else:
         coords = geom.get('coordinates')
@@ -97,7 +97,7 @@ def process_geometry(geom, name):
                 return MultiPolygon(new_coords)
         return None
 
-with open(sys.argv[1] + '.geojson', 'r') as infile:
+with open(sys.argv[1] + '.geojson', 'r', encoding='utf-8') as infile:
     data = json.load(infile)
 
 features = []
