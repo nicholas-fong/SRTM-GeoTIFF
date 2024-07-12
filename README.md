@@ -44,7 +44,7 @@ $sudo apt install gdal-bin
 $Python3 gpx2elev.py grouse-grind
 ```
 
-### Adding elelvation to GeoJSON or KML file
+### Adding elevation to GeoJSON or KML file
 Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry. <br>
 Similary for KML, add elevation to Point, LineString and Polygon outer ring.<br>
 Note that GeoJSON MultiPoint, etc and KML Multigeometry are not supported by geo2elev.py and kml2elev.py<br>
