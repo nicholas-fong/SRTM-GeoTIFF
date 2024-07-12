@@ -45,9 +45,10 @@ $Python3 gpx2elev.py grouse-grind
 ```
 
 ### Adding elevation to GeoJSON or KML file
-Reads a geojson file and determines which GeoTIFF tiles to read (on local drive), reads it and finds the elevation, adds elevation to GeoJSON Point, LineString and Polygon geometry. <br>
-Similary for KML, add elevation to Point, LineString and Polygon outer ring.<br>
-Note that GeoJSON MultiPoint, etc and KML Multigeometry are not supported by geo2elev.py and kml2elev.py<br>
+geo2elev.py - reads a geojson file, determines which GeoTIFF tiles to read (on local drive), reads it and extracts the elevation, adds the elevation to GeoJSON coordinates.<br>
+kml2elev.py - reads a KML file, determines which GeoTIFF tiles to read (on local drive), add elevation to Point, LineString and Polygon (outer ring and inner rings) and MultiGeometry coordinates.<br>
+GeoJSON MultiPoint, MultiLineString, MultiPolygon and GeometryCollection are now supported by geo2elev.py<br>
+KML Multigeometry is now supported by kml2elev.py<br>
 (Grouse Grind is a popular hiking trail in Vancouver, Canada)
 ```
 $sudo apt install gdal-bin
