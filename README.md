@@ -39,10 +39,7 @@ After assembling the necessary tiles in a local folder, you can add elevation po
 
 ### Adding elevation to GPX file
 Reads a GPX file and determines which GeoTIFF tiles to use (on local drive), reads it and extracts the elevation, updates or adds elevation to GPX waypoints, routes and tracks.
-```
-$sudo apt install gdal-bin
-$Python3 gpx2elev.py grouse-grind
-```
+
 
 ### Adding elelvation to GeoJSON file
 Reads a GeoJSON file and determines which GeoTIFF tiles to read (on local drive), reads it and extracts the elevation, adds elevation to Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
