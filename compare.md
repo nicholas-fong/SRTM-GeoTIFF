@@ -1,7 +1,7 @@
 Comparision of different SRTM data files from various sources:
 
 
-| Source | NASA ASTER  | USGS EarthExplorer | NASA ASTER | ALOS (AW3D30) | OpenTopography | 
+| Source | NASA and JSS  | USGS EarthExplorer | NASA ASTER | ALOS (AW3D30) | OpenTopography | 
 | ----  |:-----:|:-----:|:------:|:-------:|:------:|
 | File type  | GeoTIFF  |  GeoTIFF or DTED  | HGT * | GeoTIFF | GeoTIFF | 
 | Tile area | 1&deg; x 1&deg; |1&deg; x 1&deg; | 1&deg; x 1&deg; | 1&deg; x 1&deg; | see note | 
