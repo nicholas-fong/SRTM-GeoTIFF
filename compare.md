@@ -10,7 +10,7 @@ Comparision of different SRTM data files from various sources:
 | Pixel Dimension | 3601x3601 | 3601x3601 | 3601x3601 | 3600x3600 | see note | 
 | 1 pixel overlapping tiles | yes | yes | yes | non-overlap  | see note | 
 | Area or Point | area | point | point | area | area | 
-| no data return value |  | -32767 | -32768 |   |  | 
+| no data return value | -9999  | -32767 | -32768 |   |  | 
 | Compression | LZW | none | none | none | LZW | 
 
 
