@@ -1,7 +1,7 @@
 Comparision of different SRTM data files from various sources:
 
 
-| Source | NASA and JSS  | USGS EarthExplorer | NASA ASTER | ALOS (AW3D30) | OpenTopography | 
+| Source | NASA ASTER and JSS ASTER  | USGS EarthExplorer | NASA | ALOS (AW3D30) | OpenTopography | 
 | ----  |:-----:|:-----:|:------:|:-------:|:------:|
 | File type  | GeoTIFF  |  GeoTIFF or DTED  | HGT * | GeoTIFF | GeoTIFF | 
 | Tile area | 1&deg; x 1&deg; |1&deg; x 1&deg; | 1&deg; x 1&deg; | 1&deg; x 1&deg; | see note | 
@@ -14,9 +14,9 @@ Comparision of different SRTM data files from various sources:
 | Compression | LZW | none | none | none | LZW | 
 
 
-* HGT files without embedded metadata is vulnerable to data corruption by other HGT files with same file name.
+* *HGT files without embedded metadata is vulnerable to data corruption by other HGT files with same file name.
 * [This algorithm](/library/tilename.py) works for selecting tiles with overlapping pixel (e.g. NASA, USGS).
 * [Alternate algorithm](/library/tile_alos.py) is needed to select tiles with non-overlaping pixel (e.g. ALOS).
-* My preference is NASA ASTER because it has LZW compression and it returns Area data instead of Pixel data.
+* My preference is NASA/JSS ASTER GDEM because it has LZW compression and it returns area data instead of point (pixel) data.
 * For "difficult area" such as the Himalayas, ALOS produces excellent accuracy and no voids.
 * OpenTopography extracts data from ALOS, SRTM 1 or SRTM 3 and assembles them to an arbitrary tile area specified by you.
