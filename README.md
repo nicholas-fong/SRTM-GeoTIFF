@@ -20,7 +20,7 @@ Below are some providers of ASTER GDEM in GeoTIFF tiles:<br>
 [USGS EarthExplorer](https://earthexplorer.usgs.gov/).<br>
 [primer](/EarthExplorer.md) on how to download GeoTIFF from USGS EarthExplorer.
 
-[Japan Space Systems ASTER GDEM](https://gdemdl.aster.jspacesystems.or.jp/index_en.html).
+[Japan Space Systems ASTER GDEM](https://gdemdl.aster.jspacesystems.or.jp/index_en.html) Select tiles using an interactive map.
 
 ### Snippet to determine which GeoTIFF tile(s) to download/use:
 
