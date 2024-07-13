@@ -53,6 +53,7 @@ Reads a KML file and determines which GeoTIFF tiles to read (on local drive), re
 Example: Grouse Grind is a popular hiking trail in Vancouver, Canada
 ```
 $sudo apt install gdal-bin
+$python3 gpx2elev.py grouse-grind
 $python3 geo2elev.py grouse-grind
 $python3 kml2elev.py grouse-grind
 ```
