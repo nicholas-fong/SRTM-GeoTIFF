@@ -1,3 +1,9 @@
+# add elevation data to KML file
+# all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
+# Linux: sudo apt install gdal-bin   
+# Windows: install miniconda
+#   conda install conda-forge::gdal
+
 import xml.etree.ElementTree as ET
 import sys
 import math
@@ -9,10 +15,17 @@ def strip_ns_prefix(elem):
         subelem.tag = subelem.tag.split('}', 1)[1] if '}' in subelem.tag else subelem.tag
     return elem
 
-# Open the KML file
-with open(sys.argv[1] + ".kml") as infile:
-    tree = ET.parse(infile)
-root = tree.getroot()
+# Open the KML file with error checking
+try:
+    with open(sys.argv[1] + ".kml") as infile:
+        tree = ET.parse(infile)
+    root = tree.getroot()
+except FileNotFoundError:
+    print(f"Error: File {sys.argv[1]}.kml not found.")
+    sys.exit(1)
+except ET.ParseError:
+    print("Error: Failed to parse the KML file.")
+    sys.exit(1)
 
 # Strip namespaces from the tags
 root = strip_ns_prefix(root)
@@ -44,7 +57,8 @@ def extract_altitude(tiff_file, lat, lon):
     try:
         data = gdal.Open(tiff_file)
         if data is None:
-            return 0
+            print(f"Failed to open file: {tiff_file}")
+            return 0        
         band1 = data.GetRasterBand(1)
         GT = data.GetGeoTransform()
         x_pixel_size = GT[1]
@@ -56,6 +70,7 @@ def extract_altitude(tiff_file, lat, lon):
         integer_value = int(single_element)
         return integer_value
     except Exception as e:
+        print(f"Error extracting altitude: {e}")
         return 0
 
 def add_elevation(geometry_element):
