@@ -40,22 +40,24 @@ def find_tiff(latitude, longitude):
 
 def extract(tiff_file, lat, lon):
     gdal.UseExceptions()
-    data = gdal.Open(tiff_file)
-    band1 = data.GetRasterBand(1)
-    GT = data.GetGeoTransform()
-    # GDAL's Affine Transformation (GetGeoTransform) 
-    # https://gdal.org/tutorials/geotransforms_tut.html
-    # GetGeoTransform translates latitude, longitude to pixel indices
-    # GT[0] and GT[3] define the "origin": upper left pixel 
-    x_pixel_size = GT[1]
-    y_pixel_size = GT[5]
-    xP = int((lon - GT[0]) / x_pixel_size)
-    yL = int((lat - GT[3]) / y_pixel_size)
-    # without rotation, GT[2] and GT[4] are zero
-    array_result = band1.ReadAsArray(xP, yL, 1, 1)
-    single_element = array_result[0, 0]
-    integer_value = int(single_element)
-    return integer_value
+    try:
+        data = gdal.Open(tiff_file)
+        if data is None:
+            print(f"Failed to open file: {tiff_file}")
+            return 0        
+        band1 = data.GetRasterBand(1)
+        GT = data.GetGeoTransform()
+        x_pixel_size = GT[1]
+        y_pixel_size = GT[5]
+        xP = int((lon - GT[0]) / x_pixel_size)
+        yL = int((lat - GT[3]) / y_pixel_size)
+        array_result = band1.ReadAsArray(xP, yL, 1, 1)
+        single_element = array_result[0, 0]
+        integer_value = int(single_element)
+        return integer_value
+    except Exception as e:
+        print(f"Error extracting altitude: {e}")
+        return 0
 
 def add_elevation_to_coords(coords):
     new_coords = []
@@ -97,8 +99,15 @@ def process_geometry(geom, name):               #recursive function to handle Ge
                 return MultiPolygon(new_coords)
         return None
 
-with open(sys.argv[1] + '.geojson', 'r', encoding='utf-8') as infile:
+try:
+    with open(sys.argv[1] + '.geojson', 'r', encoding='utf-8') as infile:
     data = json.load(infile)
+except FileNotFoundError:
+    print("file not found")
+    sys.exit(1)
+except json.JSONDecodeError:
+    print("Error: Failed to parse GeoJSON file.")
+    sys.exit(1)  
 
 features = []
 
