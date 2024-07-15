@@ -8,6 +8,7 @@ from osgeo import gdal
 import sys
 import math
 import json
+import re
 from geojson import FeatureCollection, Feature, Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
 
 # Determine file name of GeoTIFF file based on latitude longitude
@@ -18,6 +19,17 @@ from geojson import FeatureCollection, Feature, Point, LineString, Polygon, Mult
 # Square overlapping or non-overlapping rasters are also supported
 # Rectangular rasters are supported
 # GeoTIFF with LZW compression are supported
+
+# remove newlines and blanks in the coordinates array, for better readibility of the GeoJSON pretty print
+def custom_dumps(obj, **kwargs):
+    def compact_coordinates(match):
+        # Remove newlines and extra spaces within the coordinates array
+        return match.group(0).replace('\n', '').replace(' ', '')
+
+    json_str = json.dumps(obj, **kwargs)
+    # Use a more robust regex to match coordinate arrays
+    json_str = re.sub(r'\[\s*([^\[\]]+?)\s*\]', compact_coordinates, json_str)
+    return json_str
 
 def find_tiff(latitude, longitude):
     if (latitude >= 0.0 and longitude >= 0.0):
@@ -119,7 +131,7 @@ for feature in data['features']:
         my_feature = Feature(geometry=processed_geom, properties={"name": myname})
         features.append(my_feature)
 
-new_string = json.dumps(FeatureCollection(features), indent=2, ensure_ascii=False)
+new_string = custom_dumps(FeatureCollection(features), indent=2, ensure_ascii=False)
 
 #with open(sys.argv[1] + '_processed.geojson', 'w') as outfile:
 with open(sys.argv[1] + '.geojson', 'w') as outfile:
