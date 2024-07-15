@@ -101,7 +101,7 @@ def process_geometry(geom, name):               #recursive function to handle Ge
 
 try:
     with open(sys.argv[1] + '.geojson', 'r', encoding='utf-8') as infile:
-    data = json.load(infile)
+        data = json.load(infile)
 except FileNotFoundError:
     print("file not found")
     sys.exit(1)
