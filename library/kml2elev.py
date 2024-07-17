@@ -1,4 +1,5 @@
-import xml.etree.ElementTree as ET
+from lxml import etree as ET
+import xml.dom.minidom as minidom
 import sys
 import math
 from osgeo import gdal
@@ -17,7 +18,6 @@ except ET.ParseError:
 
 # Define namespaces 
 kml_namespace = {'kml': 'http://www.opengis.net/kml/2.2'}
-ET.register_namespace('', "http://www.opengis.net/kml/2.2")
 
 def find_tile(latitude, longitude):
     if latitude >= 0.0 and longitude >= 0.0:
@@ -73,6 +73,21 @@ def add_elevation(geometry_element):
             coord_with_elev.append([longitude, latitude, z])
         coordinates_elem.text = ' '.join([','.join(map(str, coord)) for coord in coord_with_elev])
 
+# style 1 of pretty print, eliminat blank lines, returns string
+def prettify(element):
+    rough_string = ET.tostring(element, encoding='utf-8', xml_declaration=True)
+    reparsed = minidom.parseString(rough_string)
+    pretty_string = (reparsed.toprettyxml(indent="  ", encoding='utf-8')).decode('utf-8')
+    # Remove extra blank lines
+    lines = [line for line in pretty_string.split('\n') if line.strip()]
+    return '\n'.join(lines)
+# style 2 of pretty print: ET.tosring --> minidom --> toprettyxml, returns binary string
+# def prettify(element):
+#   rough_string = ET.tostring(element, encoding='utf-8', xml_declaration=True)
+#   reparsed = minidom.parseString(rough_string)
+#   return reparsed.toprettyxml(indent="  ", encoding='utf-8')
+
+# main()
 # Iterate through Placemark elements
 for placemark in root.findall('.//kml:Placemark', namespaces=kml_namespace):
     name_elem = placemark.find('kml:name', namespaces=kml_namespace)
@@ -95,5 +110,12 @@ for placemark in root.findall('.//kml:Placemark', namespaces=kml_namespace):
         for inner_ring in inner_rings:
             add_elevation(inner_ring)
 
-# Save the modified KML with the correct namespace declaration
-tree.write(sys.argv[1] + ".kml", encoding="utf-8", xml_declaration=True)
+# sylte 1 output: <?xml version="1.0" encoding="utf-8"?>
+pretty_kml = prettify(root)
+#print (pretty_kml)
+with open(sys.argv[1]+'.kml', 'w') as output_file:
+    output_file.write(pretty_kml)
+# style 2 output: <?xml version='1.0' encoding='UTF-8'?>
+# Google Mymaps use this style
+# Save the KML element
+# tree.write(sys.argv[1] + ".kml", encoding="utf-8", xml_declaration=True)
