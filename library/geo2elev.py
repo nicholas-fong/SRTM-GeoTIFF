@@ -2,7 +2,7 @@
 # all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
 # Linux: sudo apt install gdal-bin   
 # Windows: install miniconda
-#   conda install conda-forge::gdal
+#   conda install conda-forge::gdal   open anacoda command prompt  cd to python source files
 
 from osgeo import gdal
 import sys
@@ -21,11 +21,10 @@ from geojson import FeatureCollection, Feature, Point, LineString, Polygon, Mult
 # GeoTIFF with LZW compression are supported
 
 # remove newlines and blanks in the coordinates array, for better readibility of the GeoJSON pretty print
-def custom_dumps(obj, **kwargs):
+def pretty_dumps(obj, **kwargs):
     def compact_coordinates(match):
         # Remove newlines and extra spaces within the coordinates array
         return match.group(0).replace('\n', '').replace(' ', '')
-
     json_str = json.dumps(obj, **kwargs)
     # Use a more robust regex to match coordinate arrays
     json_str = re.sub(r'\[\s*([^\[\]]+?)\s*\]', compact_coordinates, json_str)
@@ -50,7 +49,7 @@ def find_tiff(latitude, longitude):
         t2 = f"{math.floor(longitude):03d}"
     return f"{hemi}{t1}{meri}{t2}.tif"
 
-def extract(tiff_file, lat, lon):
+def extract_elevation(tiff_file, lat, lon):
     gdal.UseExceptions()
     try:
         data = gdal.Open(tiff_file)
@@ -66,48 +65,48 @@ def extract(tiff_file, lat, lon):
         array_result = band1.ReadAsArray(xP, yL, 1, 1)
         single_element = array_result[0, 0]
         integer_value = int(single_element)
-        return integer_value
+        return integer_value    # return elevation found in GeoTIFF tile
     except Exception as e:
         print(f"Error extracting altitude: {e}")
         return 0
 
-def add_elevation_to_coords(coords):
+def add_elevation(coords):
     new_coords = []
     for coord in coords:
         longitude, latitude = coord[0], coord[1]
         tiff_name = '../geotiff/' + find_tiff(latitude, longitude)
-        elev = extract(tiff_name, latitude, longitude)
+        elev = extract_elevation(tiff_name, latitude, longitude)
         new_coords.append([longitude, latitude, elev])
     return new_coords
 
-def process_geometry(geom, name):               #recursive function to handle GeometryCollection object
+def process_geometry(geom):   #recursive function to manipulate geometry objects
     if geom['type'] == 'GeometryCollection':    
-        geometries = []
+        new_geometries_object = []
         for g in geom['geometries']:             
-            geometries.append(process_geometry(g, name))   #recursive calls
-        return GeometryCollection(geometries)
+            new_geometries_object.append(process_geometry(g))   #recursive call to handle each geom object in collection
+        return GeometryCollection(new_geometries_object)
     else:
         coords = geom.get('coordinates')
         if coords is not None:
-            if geom['type'] == 'Point':
+            if geom['type'] == 'Point':  # Point is a special simple case
                 longitude, latitude = coords[0], coords[1]
                 tiff_name = '../geotiff/' + find_tiff(latitude, longitude)
-                elev = extract(tiff_name, latitude, longitude)
-                return Point((longitude, latitude, elev))
+                point_elev = extract_elevation(tiff_name, latitude, longitude)
+                return Point((longitude, latitude, point_elev))
             elif geom['type'] == 'LineString':
-                new_coords = add_elevation_to_coords(coords)
+                new_coords = add_elevation(coords)
                 return LineString(new_coords)
             elif geom['type'] == 'Polygon':
-                new_coords = [add_elevation_to_coords(ring) for ring in coords]
+                new_coords = [add_elevation(ring) for ring in coords]
                 return Polygon(new_coords)
             elif geom['type'] == 'MultiPoint':
-                new_coords = add_elevation_to_coords(coords)
+                new_coords = add_elevation(coords)
                 return MultiPoint(new_coords)
             elif geom['type'] == 'MultiLineString':
-                new_coords = [add_elevation_to_coords(line) for line in coords]
+                new_coords = [add_elevation(line) for line in coords]
                 return MultiLineString(new_coords)
             elif geom['type'] == 'MultiPolygon':
-                new_coords = [[add_elevation_to_coords(ring) for ring in polygon] for polygon in coords]
+                new_coords = [[add_elevation(ring) for ring in polygon] for polygon in coords]
                 return MultiPolygon(new_coords)
         return None
 
@@ -121,18 +120,17 @@ except json.JSONDecodeError:
     print("Error: Failed to parse GeoJSON file.")
     sys.exit(1)  
 
-features = []
+bucket = []
 
 for feature in data['features']:
-    myname = feature['properties'].get('name', feature['properties'].get('Name', 'noname'))
     geom = feature['geometry']
-    processed_geom = process_geometry(geom, myname)
+    processed_geom = process_geometry(geom)
     if processed_geom is not None:
-        my_feature = Feature(geometry=processed_geom, properties={"name": myname})
-        features.append(my_feature)
+        new_feature = Feature(geometry=processed_geom, properties=feature['properties'])
+        bucket.append(new_feature)
 
-new_string = custom_dumps(FeatureCollection(features), indent=2, ensure_ascii=False)
+new_string = pretty_dumps(FeatureCollection(bucket), indent=2, ensure_ascii=False)
 
-#with open(sys.argv[1] + '_processed.geojson', 'w') as outfile:
 with open(sys.argv[1] + '.geojson', 'w') as outfile:
     outfile.write(new_string)
+print ( f"File saved as {sys.argv[1]+'.geojson'}")
