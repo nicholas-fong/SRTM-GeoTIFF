@@ -47,7 +47,7 @@ def extract (tiff_file, lat, lon):
             
 # read a gpx file and append elevation tags to waypoints, route points and track points
 
-with open( sys.argv[1]+'.gpx', 'r') as infile:
+with open( sys.argv[1]+'.gpx', 'r', encoding='utf-8') as infile:
     gpx = gpxpy.parse(infile)
 infile.close()
 
