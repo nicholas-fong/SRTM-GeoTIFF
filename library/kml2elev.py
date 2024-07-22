@@ -86,6 +86,8 @@ def prettify(element):
 #   rough_string = ET.tostring(element, encoding='utf-8', xml_declaration=True)
 #   reparsed = minidom.parseString(rough_string)
 #   return reparsed.toprettyxml(indent="  ", encoding='utf-8')
+# style 3 KML to string pretty print
+# print( ET.tostring(kml, encoding='utf-8', pretty_print=True, xml_declaration=True ).decode() )
 
 # main()
 # Iterate through Placemark elements
@@ -116,6 +118,5 @@ pretty_kml = prettify(root)
 with open(sys.argv[1]+'.kml', 'w') as output_file:
     output_file.write(pretty_kml)
 # style 2 output: <?xml version='1.0' encoding='UTF-8'?>
-# Google Mymaps use this style
-# Save the KML element
+# super simple, but uses '' instead of ""
 # tree.write(sys.argv[1] + ".kml", encoding="utf-8", xml_declaration=True)
