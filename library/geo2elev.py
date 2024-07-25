@@ -1,15 +1,15 @@
-# add elevation data to GeoJSON
-# all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
-# Linux: sudo apt install gdal-bin   
-# Windows: install miniconda
-#   conda install conda-forge::gdal   open anacoda command prompt  cd to python source files
-
 from osgeo import gdal
 import sys
 import math
 import json
 import re
 from geojson import FeatureCollection, Feature, Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
+
+# add elevation data to GeoJSON
+# all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
+# Linux: sudo apt install gdal-bin   
+# Windows: install miniconda
+#   conda install conda-forge::gdal   open anacoda command prompt  cd to python source files
 
 # Determine file name of GeoTIFF file based on latitude longitude
 # NASA ASTER use N E S W; USGS use lowercase n e s w
@@ -19,6 +19,12 @@ from geojson import FeatureCollection, Feature, Point, LineString, Polygon, Mult
 # Square overlapping or non-overlapping rasters are also supported
 # Rectangular rasters are supported
 # GeoTIFF with LZW compression are supported
+
+# GDAL's Affine Transformation (GetGeoTransform) 
+# https://gdal.org/tutorials/geotransforms_tut.html
+# GetGeoTransform translates latitude, longitude to pixel indices
+# GT[0] and GT[3] define the "origin": upper left pixel 
+# without rotation, GT[2] and GT[4] are zero
 
 # remove newlines and blanks in the coordinates array, for better readibility of the GeoJSON pretty print
 def pretty_dumps(obj, **kwargs):
@@ -79,12 +85,12 @@ def add_elevation(coords):
         new_coords.append([longitude, latitude, elev])
     return new_coords
 
-def process_geometry(geom):   #recursive function to manipulate geometry objects
+def process_geometry(geom):  #recursive function to manipulate geometry objects
     if geom['type'] == 'GeometryCollection':    
-        new_geometries_object = []
-        for g in geom['geometries']:             
-            new_geometries_object.append(process_geometry(g))   #recursive call to handle each geom object in collection
-        return GeometryCollection(new_geometries_object)
+        processed_member = []
+        for member in geom['geometries']:             
+            processed_member.append(process_geometry(member))   #recursive call to handle each geom object in collection
+        return GeometryCollection(processed_member)
     else:
         coords = geom.get('coordinates')
         if coords is not None:
