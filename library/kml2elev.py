@@ -4,6 +4,18 @@ import sys
 import math
 from osgeo import gdal
 
+# add elevation data to KML
+# all required GeoTiff files are assumed to be stored on local drive and in ../geotiff/ relative to this python code
+# Linux: sudo apt install gdal-bin   
+# Windows: install miniconda
+#   conda install conda-forge::gdal   open anacoda command prompt  cd to python source files
+
+# GDAL's Affine Transformation (GetGeoTransform) 
+# https://gdal.org/tutorials/geotransforms_tut.html
+# GetGeoTransform translates latitude, longitude to pixel indices
+# GT[0] and GT[3] define the "origin": upper left pixel 
+# without rotation, GT[2] and GT[4] are zero
+
 # Open the KML file with error checking
 try:
     with open(sys.argv[1] + ".kml") as infile:
@@ -38,7 +50,7 @@ def find_tile(latitude, longitude):
         t2 = f"{math.floor(longitude):03d}"
     return f"../geotiff/{hemi}{t1}{meri}{t2}.tif"
 
-def extract_altitude(tiff_file, lat, lon):
+def extract_elevation(tiff_file, lat, lon):
     gdal.UseExceptions()
     try:
         data = gdal.Open(tiff_file)
@@ -69,7 +81,7 @@ def add_elevation(geometry_element):
             longitude = item[0]
             latitude = item[1]
             tiff_file = find_tile(latitude, longitude)
-            z = extract_altitude(tiff_file, latitude, longitude)
+            z = extract_elevation(tiff_file, latitude, longitude)
             coord_with_elev.append([longitude, latitude, z])
         coordinates_elem.text = ' '.join([','.join(map(str, coord)) for coord in coord_with_elev])
 
@@ -95,9 +107,10 @@ for placemark in root.findall('.//kml:Placemark', namespaces=kml_namespace):
     name_elem = placemark.find('kml:name', namespaces=kml_namespace)
     name = name_elem.text.strip() if name_elem is not None else 'Unnamed'
 
-    point = placemark.find('.//kml:Point', namespaces=kml_namespace)
-    line_string = placemark.find('.//kml:LineString', namespaces=kml_namespace)
-    polygon = placemark.find('.//kml:Polygon', namespaces=kml_namespace)
+    point = placemark.find('.kml:Point', namespaces=kml_namespace)
+    line_string = placemark.find('.kml:LineString', namespaces=kml_namespace)
+    polygon = placemark.find('.kml:Polygon', namespaces=kml_namespace)
+    multigeometry = placemark.find('.kml:MultiGeometry', kml_namespace)
 
     if point is not None:
         add_elevation(point)
@@ -106,17 +119,33 @@ for placemark in root.findall('.//kml:Placemark', namespaces=kml_namespace):
         add_elevation(line_string)
 
     elif polygon is not None:
-        outer_ring = polygon.find('.//kml:outerBoundaryIs/kml:LinearRing', namespaces=kml_namespace)
+        outer_ring = polygon.find('.kml:outerBoundaryIs/kml:LinearRing', namespaces=kml_namespace)
         add_elevation(outer_ring)
-        inner_rings = polygon.findall('.//kml:innerBoundaryIs/kml:LinearRing', namespaces=kml_namespace)
+        inner_rings = polygon.findall('.kml:innerBoundaryIs/kml:LinearRing', namespaces=kml_namespace)
         for inner_ring in inner_rings:
             add_elevation(inner_ring)
+
+    elif multigeometry is not None:
+        points = multigeometry.findall('.kml:Point', kml_namespace)
+        lines = multigeometry.findall('.kml:LineString', kml_namespace)
+        polygons = multigeometry.findall('.kml:Polygon', kml_namespace)
+        for point in points:
+            add_elevation(point)
+        for line in lines:
+            add_elevation(line)    
+        for polygon in polygons:
+            outer_ring = polygon.find('.kml:outerBoundaryIs/kml:LinearRing', kml_namespace)
+            add_elevation(outer_ring)
+            inner_rings = polygon.findall('.kml:innerBoundaryIs/kml:LinearRing', kml_namespace)
+            for hole in inner_rings:
+                add_elevation(hole)
 
 # sylte 1 output: <?xml version="1.0" encoding="utf-8"?>
 pretty_kml = prettify(root)
 #print (pretty_kml)
 with open(sys.argv[1]+'.kml', 'w') as output_file:
     output_file.write(pretty_kml)
+print ( f"File with elevation saved as {sys.argv[1]+'.kml'}")        
 # style 2 output: <?xml version='1.0' encoding='UTF-8'?>
 # super simple, but uses '' instead of ""
 # tree.write(sys.argv[1] + ".kml", encoding="utf-8", xml_declaration=True)
